@@ -168,6 +168,15 @@ public class GM : MonoBehaviour
                 }
             }
         }
+        if (playerTurn == 1)
+        {
+            player1Gold += 20;
+        }
+        else
+        {
+            player2Gold += 20;
+        }
+
         UpdateGoldText();
     }
 

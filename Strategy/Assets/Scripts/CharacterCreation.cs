@@ -8,6 +8,9 @@ public class CharacterCreation : MonoBehaviour
 
     GM gm;
 
+    public GameObject king1;
+    public GameObject king2;
+
     public Button player1openButton;
     public Button player2openButton;
 
@@ -90,7 +93,7 @@ public class CharacterCreation : MonoBehaviour
 
     }
 
-    void SetCreatableTiles() {
+    /*void SetCreatableTiles() {
         gm.ResetTiles();
 
         Tile[] tiles = FindObjectsOfType<Tile>();
@@ -99,6 +102,36 @@ public class CharacterCreation : MonoBehaviour
             if (tile.isClear())
             {
                 tile.SetCreatable();
+            }
+        }
+    }*/
+
+    void SetCreatableTiles()
+    {
+        gm.ResetTiles();
+
+     
+        if (gm.playerTurn == 1)
+        {
+            checkAvalableTiles(king1);
+        }
+        else
+        {
+            checkAvalableTiles(king2);
+        }
+    }
+
+    void checkAvalableTiles(GameObject king)
+    {
+        Tile[] tiles = FindObjectsOfType<Tile>();
+        foreach (Tile tile in tiles)
+        {
+            if (Mathf.Abs(king.transform.position.x - tile.transform.position.x) + Mathf.Abs(transform.position.y - tile.transform.position.y) <= 5)
+            {
+                if (tile.isClear())
+                {
+                    tile.SetCreatable();
+                }
             }
         }
     }
