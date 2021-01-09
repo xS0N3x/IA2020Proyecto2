@@ -140,7 +140,7 @@ public class GM : MonoBehaviour
             unit.ResetWeaponIcon();
         }
 
-        if (playerTurn == 1) {
+        if (playerTurn == 1) { //esto se dejará
             playerIcon.sprite = playerTwoIcon;
             playerTurn = 2;
         } else if (playerTurn == 2) {

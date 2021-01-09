@@ -71,7 +71,7 @@ public class Unit : MonoBehaviour
 
         }
         else {
-            if (playerNumber == gm.playerTurn) { // select unit only if it's his turn
+            if (playerNumber == gm.playerTurn) { // select unit only if it's his turn / dejar player 1 solo
                 if (gm.selectedUnit != null)
                 { // deselect the unit that is currently selected, so there's only one isSelected unit at a time
                     gm.selectedUnit.isSelected = false;
