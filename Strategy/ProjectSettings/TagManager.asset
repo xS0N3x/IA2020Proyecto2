@@ -6,7 +6,6 @@ TagManager:
   tags:
   - Archer
   - infoPanel
-  - gameMaster
   layers:
   - Default
   - TransparentFX
