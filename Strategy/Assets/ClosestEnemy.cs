@@ -23,6 +23,7 @@ public class ClosestEnemy : MonoBehaviour
     public ClosestEnemy[] allies;
     public int attackRadius;
     public GM gm;
+    public bool hasMoved = false;
 
     public bool isKing;
     public Text displayedText;
@@ -199,6 +200,35 @@ public class ClosestEnemy : MonoBehaviour
                 if (Mathf.Abs(closestEnemy.transform.position.x - tile.transform.position.x) + Mathf.Abs(closestEnemy.transform.position.y - tile.transform.position.y) > maxDist)
                 {
                     maxDist = Mathf.Abs(closestEnemy.transform.position.x - tile.transform.position.x) + Mathf.Abs(closestEnemy.transform.position.y - tile.transform.position.y);
+                    closestTile = tile;
+                }
+            }
+        }
+    }
+
+    public void MiddleTile(List<Tile> guolkTails)
+    {
+        minDist = Mathf.Infinity;
+        FindNearestEnemy(enemies);
+        List<Tile> commonTiles = new List<Tile>();
+        foreach (Tile a in guolkTails)
+        {
+            if (allyTiles.Contains(a))
+            {
+                commonTiles.Add(a);
+            }
+        }
+        if (commonTiles.Count == 0)
+        {
+            FindClosestTile(closestAlly.transform.position);
+        }
+        else
+        {
+            foreach (Tile tile in commonTiles)
+            {
+                if (Mathf.Abs(closestEnemy.transform.position.x - tile.transform.position.x) + Mathf.Abs(closestEnemy.transform.position.y - tile.transform.position.y) < minDist)
+                {
+                    minDist = Mathf.Abs(closestEnemy.transform.position.x - tile.transform.position.x) + Mathf.Abs(closestEnemy.transform.position.y - tile.transform.position.y);
                     closestTile = tile;
                 }
             }

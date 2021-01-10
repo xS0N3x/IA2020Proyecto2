@@ -59191,6 +59191,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7991915}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1409312430 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1409312434, guid: 0fb875a05caa9ef42bc5ab8ca814b69d,
+    type: 3}
+  m_PrefabInstance: {fileID: 7991915}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409312429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7ba2e047baece54ea30d90f18662b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1411393257 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3293640991218369701, guid: e29861ac58e55d04ca67678a523a8c67,
@@ -64351,7 +64363,7 @@ MonoBehaviour:
   darkVictory: {fileID: 1969939416}
   aux: []
   enemies: []
-  script: {fileID: 0}
+  script: {fileID: 1409312430}
   turnofinalizado: 0
   turnoiniciado: 0
   lowerEnemy: {fileID: 0}
