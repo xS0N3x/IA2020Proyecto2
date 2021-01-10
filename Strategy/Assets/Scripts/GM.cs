@@ -46,7 +46,9 @@ public class GM : MonoBehaviour
     public List<GameObject> enemies;
     public ClosestEnemy script;
     public bool turnofinalizado = false;
-    public bool turnoiniciado = false; 
+    public bool turnoiniciado = false;
+
+    public ClosestEnemy lowerEnemy;
 
     private void Start()
     {
@@ -94,16 +96,127 @@ public class GM : MonoBehaviour
         foreach (GameObject enemy in enemies)
         {
             script = enemy.GetComponent<ClosestEnemy>();
-            script.FindNearestEnemy();
-            script.GetWalkableTiles();
-            script.FindClosestTile();
-            StartCoroutine(StartMovement(enemy, script));
-            yield return new WaitForSecondsRealtime(1);
+
+            script.GetEnemies(); //Compruebo si hay enemigos al alcance actualmente
+            if (script.enemiesInRange.Count > 0)
+            {
+                Unit lowerEnemy = script.FindLowestEnemy(script.enemiesInRange);
+                StartCoroutine(Attack(lowerEnemy, script));
+                yield return new WaitForSecondsRealtime(1);
+            }
+            else {
+
+                Unit[] lista = FindObjectsOfType<Unit>();
+                script.FindNearestEnemy(lista);
+                script.GetWalkableTiles();
+                script.FindClosestTile();
+                StartCoroutine(StartMovement(enemy, script));
+                
+                yield return new WaitForSecondsRealtime(1);
+
+                script.GetEnemies(); //Compruebo si hay enemigos al alcance actualmente
+                if (script.enemiesInRange.Count > 0)
+                {
+
+                    Unit lowerEnemy = script.FindLowestEnemy(script.enemiesInRange);
+                    StartCoroutine(Attack(lowerEnemy, script));
+                    yield return new WaitForSecondsRealtime(1);
+                }
+            }
 
         }
 
         turnofinalizado = true;
        
+    }
+
+    public void UpdateHealthDisplay(ClosestEnemy script)
+    {
+        if (script.isKing)
+        {
+            script.displayedText.text = script.health.ToString();
+        }
+    }
+
+    IEnumerator Attack(Unit enemy, ClosestEnemy script)
+    {
+
+        int enemyDamege = script.attackDamage - enemy.armor;
+        int unitDamage = enemy.defenseDamage - script.armor;
+
+        if (enemyDamege >= 1)
+        {
+            enemy.health -= enemyDamege;
+            enemy.UpdateHealthDisplay();
+            DamageIcon d = Instantiate(script.damageIcon, enemy.transform.position, Quaternion.identity);
+            d.Setup(enemyDamege);
+        }
+
+        if (script.transform.tag == "Archer" && enemy.tag != "Archer")
+        {
+            if (Mathf.Abs(script.transform.position.x - enemy.transform.position.x) + Mathf.Abs(script.transform.position.y - enemy.transform.position.y) <= 1) // check is the enemy is near enough to attack
+            {
+                if (unitDamage >= 1)
+                {
+                    script.health -= unitDamage;
+                    UpdateHealthDisplay(script);
+                    DamageIcon d = Instantiate(script.damageIcon, script.transform.position, Quaternion.identity);
+                    d.Setup(unitDamage);
+                }
+            }
+        }
+        else
+        {
+            if (unitDamage >= 1)
+            {
+                script.health -= unitDamage;
+                UpdateHealthDisplay(script);
+                DamageIcon d = Instantiate(script.damageIcon, script.transform.position, Quaternion.identity);
+                d.Setup(unitDamage);
+            }
+        }
+
+        if (enemy.health <= 0)
+        {
+
+            if (script.deathEffect != null)
+            {
+                Instantiate(script.deathEffect, enemy.transform.position, Quaternion.identity);
+                camAnim.SetTrigger("shake");
+            }
+
+            if (enemy.isKing)
+            {
+                ShowVictoryPanel(enemy.playerNumber);
+            }
+
+            script.GetWalkableTiles(); // check for new walkable tiles (if enemy has died we can now walk on his tile)
+            RemoveInfoPanel(enemy);
+            Destroy(enemy.gameObject);
+        }
+
+        if (script.health <= 0)
+        {
+
+            if (script.deathEffect != null)
+            {
+                Instantiate(script.deathEffect, enemy.transform.position, Quaternion.identity);
+                camAnim.SetTrigger("shake");
+            }
+
+            if (script.isKing)
+            {
+                ShowVictoryPanel(script.playerNumber);
+            }
+
+            ResetTiles(); // reset tiles when we die
+            RemoveInfoPanel(script);
+            Destroy(gameObject);
+        }
+
+        UpdateInfoStats();
+
+        yield return null;
     }
 
     IEnumerator StartMovement(GameObject enemy, ClosestEnemy script) {
@@ -166,6 +279,17 @@ public class GM : MonoBehaviour
 			currentInfoUnit = null;
         }
     }
+
+    public void RemoveInfoPanel(ClosestEnemy iaunit)
+    {
+        if (iaunit.Equals(currentInfoUnit))
+        {
+            unitInfoPanel.SetActive(false);
+            currentInfoUnit = null;
+        }
+    }
+
+
 
     public void ResetTiles() {
         Tile[] tiles = FindObjectsOfType<Tile>();

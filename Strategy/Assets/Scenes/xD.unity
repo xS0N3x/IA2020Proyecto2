@@ -12484,11 +12484,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minDist: Infinity
   closestEnemy: {fileID: 0}
-  enemiesInRange: []
+  enemies: []
   tileSpeed: 2
   walkableTiles: []
   closestTile: {fileID: 0}
   moveSpeed: 10
+  enemiesInRange: []
+  attackRadius: 1
+  isKing: 0
+  displayedText: {fileID: 0}
+  deathEffect: {fileID: 8882834092664154197, guid: 43e58a09770a414488a4edf9a2bb5ea7,
+    type: 3}
+  playerNumber: 2
+  health: 5
+  attackDamage: 3
+  defenseDamage: 2
+  armor: 1
+  damageIcon: {fileID: -5891122600849735030, guid: eb780ffd3e6d6b64d993bc8583781d30,
+    type: 3}
 --- !u!1 &286259228 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7677967910336022200, guid: d0745185e498645d1b87c30c3d4a70aa,
@@ -18849,11 +18862,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minDist: Infinity
   closestEnemy: {fileID: 0}
-  enemiesInRange: []
+  enemies: []
   tileSpeed: 4
   walkableTiles: []
   closestTile: {fileID: 0}
   moveSpeed: 10
+  enemiesInRange: []
+  attackRadius: 1
+  isKing: 0
+  displayedText: {fileID: 0}
+  deathEffect: {fileID: 8882834092664154197, guid: 43e58a09770a414488a4edf9a2bb5ea7,
+    type: 3}
+  playerNumber: 2
+  health: 7
+  attackDamage: 4
+  defenseDamage: 3
+  armor: 2
+  damageIcon: {fileID: -5891122600849735030, guid: eb780ffd3e6d6b64d993bc8583781d30,
+    type: 3}
 --- !u!1 &429595618
 GameObject:
   m_ObjectHideFlags: 0
@@ -20707,11 +20733,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minDist: Infinity
   closestEnemy: {fileID: 0}
-  enemiesInRange: []
+  enemies: []
   tileSpeed: 2
   walkableTiles: []
   closestTile: {fileID: 0}
   moveSpeed: 10
+  enemiesInRange: []
+  attackRadius: 1
+  isKing: 0
+  displayedText: {fileID: 0}
+  deathEffect: {fileID: 8882834092664154197, guid: 43e58a09770a414488a4edf9a2bb5ea7,
+    type: 3}
+  playerNumber: 2
+  health: 5
+  attackDamage: 3
+  defenseDamage: 2
+  armor: 1
+  damageIcon: {fileID: -5891122600849735030, guid: eb780ffd3e6d6b64d993bc8583781d30,
+    type: 3}
 --- !u!1 &485368679
 GameObject:
   m_ObjectHideFlags: 0
@@ -59244,11 +59283,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minDist: Infinity
   closestEnemy: {fileID: 0}
-  enemiesInRange: []
+  enemies: []
   tileSpeed: 2
   walkableTiles: []
   closestTile: {fileID: 0}
   moveSpeed: 10
+  enemiesInRange: []
+  attackRadius: 1
+  isKing: 1
+  displayedText: {fileID: 309623736}
+  deathEffect: {fileID: 8882834092664154197, guid: 43e58a09770a414488a4edf9a2bb5ea7,
+    type: 3}
+  playerNumber: 2
+  health: 15
+  attackDamage: 5
+  defenseDamage: 4
+  armor: 1
+  damageIcon: {fileID: -5891122600849735030, guid: eb780ffd3e6d6b64d993bc8583781d30,
+    type: 3}
 --- !u!1 &1411393257 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3293640991218369701, guid: e29861ac58e55d04ca67678a523a8c67,
@@ -64409,6 +64461,9 @@ MonoBehaviour:
   aux: []
   enemies: []
   script: {fileID: 0}
+  turnofinalizado: 0
+  turnoiniciado: 0
+  lowerEnemy: {fileID: 0}
 --- !u!4 &1570414221
 Transform:
   m_ObjectHideFlags: 0
@@ -82045,11 +82100,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minDist: Infinity
   closestEnemy: {fileID: 0}
-  enemiesInRange: []
+  enemies: []
   tileSpeed: 5
   walkableTiles: []
   closestTile: {fileID: 0}
   moveSpeed: 10
+  enemiesInRange: []
+  attackRadius: 2
+  isKing: 0
+  displayedText: {fileID: 0}
+  deathEffect: {fileID: 8882834092664154197, guid: 43e58a09770a414488a4edf9a2bb5ea7,
+    type: 3}
+  playerNumber: 2
+  health: 4
+  attackDamage: 4
+  defenseDamage: 2
+  armor: 1
+  damageIcon: {fileID: -5891122600849735030, guid: eb780ffd3e6d6b64d993bc8583781d30,
+    type: 3}
 --- !u!4 &1888838835 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 203797387408590349, guid: e4ad95c761a65f243b449f1e95d0c00e,

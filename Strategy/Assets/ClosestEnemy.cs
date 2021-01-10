@@ -1,23 +1,38 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ClosestEnemy : MonoBehaviour
 {
     public float minDist = Mathf.Infinity;
     public Unit closestEnemy; //Tropas rojas
-    public Unit[] enemiesInRange;
+    public Unit[] enemies;
     //public bool hasMoved;
     public int tileSpeed;
     public List<Tile> walkableTiles;
     public Tile closestTile;
     public float moveSpeed;
+    public List<Unit> enemiesInRange = new List<Unit>();
+    public int attackRadius;
 
+    public bool isKing;
+    public Text displayedText;
+    public GameObject deathEffect;
+    public int playerNumber;
+
+    // Attack Stats
+    public int health;
+    public int attackDamage;
+    public int defenseDamage;
+    public int armor;
+
+    public DamageIcon damageIcon;
 
     // Start is called before the first frame update
     void Start()
     {
-        enemiesInRange = FindObjectsOfType<Unit>();
+        enemies = FindObjectsOfType<Unit>();
     }
 
     // Update is called once per frame
@@ -26,8 +41,8 @@ public class ClosestEnemy : MonoBehaviour
 
     }
 
-    public void FindNearestEnemy() {
-        foreach (Unit enemy in enemiesInRange)
+    public void FindNearestEnemy(Unit[] lista) {
+        foreach (Unit enemy in lista)
         {
             if (Mathf.Abs(transform.position.x - enemy.transform.position.x) + Mathf.Abs(transform.position.y - enemy.transform.position.y) <= minDist)
             {
@@ -39,10 +54,6 @@ public class ClosestEnemy : MonoBehaviour
 
     public void GetWalkableTiles()
     { // Looks for the tiles the unit can walk on
-        /*if (hasMoved == true)
-        {
-            return;
-        }*/
 
         Tile[] tiles = FindObjectsOfType<Tile>();
         foreach (Tile tile in tiles)
@@ -70,5 +81,40 @@ public class ClosestEnemy : MonoBehaviour
             }
         }
 
+    }
+
+    public void GetEnemies()
+    {
+
+        enemiesInRange.Clear();
+
+        Unit[] enemies = FindObjectsOfType<Unit>();
+        foreach (Unit enemy in enemies)
+        {
+            if (Mathf.Abs(transform.position.x - enemy.transform.position.x) + Mathf.Abs(transform.position.y - enemy.transform.position.y) <= attackRadius) // check is the enemy is near enough to attack
+            {
+
+             enemiesInRange.Add(enemy);
+             enemy.weaponIcon.SetActive(true);
+
+            }
+        }
+    }
+
+    public Unit FindLowestEnemy(List<Unit> lista)
+    {
+        Unit lowerEnemy = null;
+        float minHealth = Mathf.Infinity;
+
+        foreach (Unit enemy in lista)
+        {
+            if (enemy.health <= minHealth)
+            {
+                minHealth = enemy.health;
+                lowerEnemy = enemy;
+            }
+        }
+
+        return lowerEnemy;
     }
 }

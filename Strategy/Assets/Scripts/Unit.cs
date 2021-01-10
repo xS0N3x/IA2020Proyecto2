@@ -49,7 +49,7 @@ public class Unit : MonoBehaviour
         UpdateHealthDisplay();
     }
 
-    private void UpdateHealthDisplay ()
+    public void UpdateHealthDisplay ()
     {
         if (isKing)
         {
