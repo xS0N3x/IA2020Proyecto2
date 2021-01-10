@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class ClosestEnemy : MonoBehaviour
 {
     public float minDist = Mathf.Infinity;
+    public float maxDist = -1;
     public Unit closestEnemy; //Tropas rojas
     public ClosestEnemy closestAlly;
     public Village closestVillage;
@@ -14,6 +15,7 @@ public class ClosestEnemy : MonoBehaviour
     //public bool hasMoved;
     public int tileSpeed;
     public List<Tile> walkableTiles;
+    public List<Tile> allyTiles;
     public Tile closestTile;
     public float moveSpeed;
     public List<Unit> enemiesInRange = new List<Unit>();
@@ -157,6 +159,52 @@ public class ClosestEnemy : MonoBehaviour
 
     }
 
+    public void AllyTiles(ClosestEnemy ally)
+    { // Looks for the tiles the unit can walk on
+
+        Tile[] tiles = FindObjectsOfType<Tile>();
+        allyTiles.Clear();
+        foreach (Tile tile in tiles)
+        {
+            if (Mathf.Abs(ally.transform.position.x - tile.transform.position.x) + Mathf.Abs(ally.transform.position.y - tile.transform.position.y) <= tileSpeed)
+            { // how far he can move
+                if (tile.isClear() == true)
+                { // is the tile clear from any obstacles
+                    allyTiles.Add(tile); //Acuerdate de vaciarla
+                }
+            }
+        }
+    }
+
+    public void FarestTile(List<Tile> walkTiles)
+    {
+        maxDist = -1;
+        FindNearestEnemy(enemies);
+        List<Tile> commonTiles = new List<Tile>();
+        foreach (Tile a in walkTiles)
+        {
+            if (allyTiles.Contains(a))
+            {
+                commonTiles.Add(a);
+            }
+        }
+        if (commonTiles.Count == 0)
+        {
+            FindClosestTile(closestAlly.transform.position);
+        }
+        else
+        {
+            foreach (Tile tile in commonTiles)
+            {
+                if (Mathf.Abs(closestEnemy.transform.position.x - tile.transform.position.x) + Mathf.Abs(closestEnemy.transform.position.y - tile.transform.position.y) > maxDist)
+                {
+                    maxDist = Mathf.Abs(closestEnemy.transform.position.x - tile.transform.position.x) + Mathf.Abs(closestEnemy.transform.position.y - tile.transform.position.y);
+                    closestTile = tile;
+                }
+            }
+        }
+    }
+
     public void FindClosestTile() {
 
         minDist = Mathf.Infinity;
@@ -207,6 +255,8 @@ public class ClosestEnemy : MonoBehaviour
             }
         }
     }
+
+
 
     public void GetVillages()
     {

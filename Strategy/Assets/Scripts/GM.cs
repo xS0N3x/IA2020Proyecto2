@@ -157,6 +157,9 @@ public class GM : MonoBehaviour
 
                     break;
                 case "Knight":
+                    
+
+
 
                     break;
                 case "Archer":
@@ -172,9 +175,18 @@ public class GM : MonoBehaviour
                     {
                         script.GetWalkableTiles();
                         script.FindNearestAllyWithTag(listaAliados, "Bat");
-                        /*if () { 
-                        
-                        }*/
+                        script.AllyTiles(script.closestAlly);
+                        script.FarestTile(script.walkableTiles);
+                        StartCoroutine(StartMovement(enemy, script));
+                        yield return new WaitForSecondsRealtime(1);
+
+                        script.GetEnemies();
+                        if (script.enemiesInRange.Count > 0)
+                        {
+                            Unit lowerEnemy = script.FindLowestEnemy(script.enemiesInRange);
+                            StartCoroutine(Attack(lowerEnemy, script));
+
+                        }
                     }
 
 
@@ -359,6 +371,7 @@ public class GM : MonoBehaviour
             script.GetWalkableTiles(); // check for new walkable tiles (if enemy has died we can now walk on his tile)
             RemoveInfoPanel(enemy);
             Destroy(enemy.gameObject);
+            script.enemies = FindObjectsOfType<Unit>();
         }
 
         if (script.health <= 0)

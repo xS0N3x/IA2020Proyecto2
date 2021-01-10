@@ -27367,7 +27367,7 @@ PrefabInstance:
     - target: {fileID: 3831706681586816703, guid: 0f0a2447a78d86143a35917ac0efe6e7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 15
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 3831706681586816703, guid: 0f0a2447a78d86143a35917ac0efe6e7,
         type: 3}
@@ -57398,6 +57398,10 @@ PrefabInstance:
       propertyPath: gm
       value: 
       objectReference: {fileID: 1570414220}
+    - target: {fileID: 1885440433, guid: dfd3953b532394b459bb5b605feb9936, type: 3}
+      propertyPath: attackRadius
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 626269173632994742, guid: dfd3953b532394b459bb5b605feb9936,
         type: 3}
       propertyPath: m_RootOrder
