@@ -7,10 +7,14 @@ using UnityEngine.SceneManagement;
 public class GM : MonoBehaviour
 {
     public Unit selectedUnit;
+    public IAUnit selectedIAUnit;
 
     public int playerTurn = 1;
 
     public Transform selectedUnitSquare;
+
+    public IAUnit[] troops;
+    public Unit[] enemies;
 
 
     private Animator camAnim;
@@ -45,11 +49,14 @@ public class GM : MonoBehaviour
 		source = GetComponent<AudioSource>();
         camAnim = Camera.main.GetComponent<Animator>();
         GetGoldIncome(1);
+
+        troops = FindObjectsOfType<IAUnit>();
+        enemies = FindObjectsOfType<Unit>();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("b")) {
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("b"))) {
             EndTurn();
         }
 
@@ -62,7 +69,15 @@ public class GM : MonoBehaviour
         {
             selectedUnitSquare.gameObject.SetActive(false);
         }
-
+        if (selectedIAUnit!= null) // moves the white square to the selected unit!
+        {
+            selectedUnitSquare.gameObject.SetActive(true);
+            selectedUnitSquare.position = selectedIAUnit.transform.position;
+        }
+        else
+        {
+            selectedUnitSquare.gameObject.SetActive(false);
+        }
     }
 
     // Sets panel active/inactive and moves it to the correct place
@@ -130,6 +145,13 @@ public class GM : MonoBehaviour
             selectedUnit.isSelected = false;
             selectedUnit = null;
         }
+        if (selectedIAUnit != null)
+        {
+            selectedIAUnit.ResetWeaponIcon(); //si hay problemas con el icono del arma, venir aquí
+            selectedIAUnit.isSelected = false;
+            selectedIAUnit = null;
+        }
+        
 
         ResetTiles();
 
@@ -139,16 +161,23 @@ public class GM : MonoBehaviour
             unit.hasMoved = false;
             unit.ResetWeaponIcon();
         }
+        IAUnit[] iaUnits = FindObjectsOfType<IAUnit>();
+        foreach (IAUnit iaUnit in iaUnits)
+        {
+            iaUnit.hasAttacked = false;
+            iaUnit.hasMoved = false;
+            iaUnit.ResetWeaponIcon();
+        }
 
         if (playerTurn == 1) { //esto se dejará
             playerIcon.sprite = playerTwoIcon;
             playerTurn = 2;
-        } else if (playerTurn == 2) {
+        } else if (playerTurn == 2) {//recordar ponerlo en la IA
             playerIcon.sprite = playerOneIcon;
             playerTurn = 1;
         }
 
-        GetGoldIncome(playerTurn);
+        GetGoldIncome(playerTurn); //recordar incrementar el oro en la IA
         GetComponent<CharacterCreation>().CloseCharacterCreationMenus();
         createdUnit = null;
     }

@@ -3,8 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Unit : MonoBehaviour
+public class IAUnit : MonoBehaviour
 {
+    //public List<IAUnit> troops = new List<IAUnit>();
+    IAUnit[] troops;
+    Unit[] enemies;
+    
+
+
+    public Tile tileScript;
+    public StateMachine smScript;
+
+
+
+
+
     public bool isSelected;
     public bool hasMoved;
 
@@ -31,25 +44,26 @@ public class Unit : MonoBehaviour
 
     public int cost;
 
-	public GameObject deathEffect;
+    public GameObject deathEffect;
 
-	private Animator camAnim;
+    private Animator camAnim;
 
     public bool isKing;
 
-	private AudioSource source;
+    private AudioSource source;
 
-    public Text displayedText; 
+    public Text displayedText;
 
     private void Start()
     {
-		source = GetComponent<AudioSource>();
-		camAnim = Camera.main.GetComponent<Animator>();
+        source = GetComponent<AudioSource>();
+        camAnim = Camera.main.GetComponent<Animator>();
         gm = FindObjectOfType<GM>();
         UpdateHealthDisplay();
+
     }
 
-    private void UpdateHealthDisplay ()
+    private void UpdateHealthDisplay()
     {
         if (isKing)
         {
@@ -57,21 +71,168 @@ public class Unit : MonoBehaviour
         }
     }
 
-    private void OnMouseDown() // select character or deselect if already selected
+    /* void GetWalkableTiles()
+     { // Looks for the tiles the unit can walk on
+         if (hasMoved == true)
+         {
+             return;
+         }
+
+         Tile[] tiles = FindObjectsOfType<Tile>();
+         foreach (Tile tile in tiles)
+         {
+             if (Mathf.Abs(transform.position.x - tile.transform.position.x) + Mathf.Abs(transform.position.y - tile.transform.position.y) <= tileSpeed)
+             { // how far he can move
+                 if (tile.isClear() == true)
+                 { // is the tile clear from any obstacles
+                     tile.Highlight();
+                 }
+
+             }
+         }
+     }*/
+    private void Update()
+    {
+        if (smScript.turnIA == true)
+        {
+            smScript.turnIA = false;
+            GetEnemies();
+            
+        }
+    }
+
+    void GetEnemies()
+    {
+        troops = GameObject.FindGameObjectWithTag("gameMaster").GetComponent<GM>().troops;
+        enemies = GameObject.FindGameObjectWithTag("gameMaster").GetComponent<GM>().enemies;
+        ManageEnemies();
+    }
+
+    void ManageEnemies()
     {
         
+        //foreach (IAUnit troop in troops)
+        for (int i = 0; i<troops.Length; i++)
+        {
+            /*float minDist = 10000000;
+            Unit closestEnemy;
+            foreach (Unit enemy in enemies)
+            {
+                if (Mathf.Abs(troop.transform.position.x - enemy.transform.position.x) + Mathf.Abs(troop.transform.position.y - enemy.transform.position.y) <= minDist)
+                {
+                    minDist = Mathf.Abs(troop.transform.position.x - enemy.transform.position.x) + Mathf.Abs(troop.transform.position.y - enemy.transform.position.y);
+                    closestEnemy = enemy;
+                }
+            }*/
+
+            //gm.selectedIAUnit = troop;
+            List<Tile> walkableTiles = new List<Tile>();
+            walkableTiles = GetWalkableTiles(troops[i]);
+            Move(walkableTiles[Random.Range(0, 4)].transform);
+            
+            /*float aux = troop.transform.position.x;
+            StartCoroutine(StartMovement(aux - 1));*/
+            
+        }
+    }
+
+    List<Tile> GetWalkableTiles(IAUnit troop)
+    { // Looks for the tiles the unit can walk on
+        if (hasMoved == true)
+        {
+            return null;
+        }
+
+        Tile[] tiles = FindObjectsOfType<Tile>();
+        List<Tile> aux = new List<Tile>();
+        foreach (Tile tile in tiles)
+        {
+            if (Mathf.Abs(troop.transform.position.x - tile.transform.position.x) + Mathf.Abs(troop.transform.position.y - tile.transform.position.y) <= tileSpeed)
+            { // how far he can move
+                if (tile.isClear() == true)
+                { // is the tile clear from any obstacles
+                    tile.Highlight();
+                    aux.Add(tile);
+                }
+
+            }
+        }
+
+        return aux;
+    }
+
+    public void Move(Transform movePos)
+    {
+        gm.ResetTiles();
+        StartCoroutine(StartMovement(movePos));
+    }
+
+    IEnumerator StartMovement(Transform movePos)
+    { // Moves the character to his new position.
+
+
+        while (transform.position.x != movePos.position.x)
+        { // first aligns him with the new tile's x pos
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2(movePos.position.x, transform.position.y), moveSpeed * Time.deltaTime);
+            yield return null;
+        }
+        while (transform.position.y != movePos.position.y) // then y
+        {
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x, movePos.position.y), moveSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        hasMoved = true;
+        ResetWeaponIcon();
+        /*GetEnemies();
+        gm.MoveInfoPanel(this);*/
+    }
+
+
+    public void ResetWeaponIcon()
+    {
+        Unit[] enemies = FindObjectsOfType<Unit>();
+        foreach (Unit enemy in enemies)
+        {
+            enemy.weaponIcon.SetActive(false);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
+    private void OnMouseDown() // select character or deselect if already selected
+    {
+
         ResetWeaponIcon();
 
         if (isSelected == true)
         {
-            
+
             isSelected = false;
             gm.selectedUnit = null;
             gm.ResetTiles();
 
         }
-        else {
-            if (playerNumber == gm.playerTurn) { // select unit only if it's his turn / dejar player 1 solo gm.playerTurn
+        else
+        {
+            if (playerNumber == gm.playerTurn)
+            { // select unit only if it's his turn / dejar player 1 solo
                 if (gm.selectedUnit != null)
                 { // deselect the unit that is currently selected, so there's only one isSelected unit at a time
                     gm.selectedUnit.isSelected = false;
@@ -81,10 +242,11 @@ public class Unit : MonoBehaviour
                 gm.selectedUnit = this;
 
                 isSelected = true;
-				if(source != null){
-					source.Play();
-				}
-				
+                if (source != null)
+                {
+                    source.Play();
+                }
+
                 GetWalkableTiles();
                 GetEnemies();
             }
@@ -118,13 +280,16 @@ public class Unit : MonoBehaviour
 
 
 
-    void GetWalkableTiles() { // Looks for the tiles the unit can walk on
-        if (hasMoved == true) {
+    void GetWalkableTiles()
+    { // Looks for the tiles the unit can walk on
+        if (hasMoved == true)
+        {
             return;
         }
 
         Tile[] tiles = FindObjectsOfType<Tile>();
-        foreach (Tile tile in tiles) {
+        foreach (Tile tile in tiles)
+        {
             if (Mathf.Abs(transform.position.x - tile.transform.position.x) + Mathf.Abs(transform.position.y - tile.transform.position.y) <= tileSpeed)
             { // how far he can move
                 if (tile.isClear() == true)
@@ -132,12 +297,13 @@ public class Unit : MonoBehaviour
                     tile.Highlight();
                 }
 
-            }          
+            }
         }
     }
 
-    void GetEnemies() {
-    
+    void GetEnemies()
+    {
+
         enemiesInRange.Clear();
 
         Unit[] enemies = FindObjectsOfType<Unit>();
@@ -145,7 +311,8 @@ public class Unit : MonoBehaviour
         {
             if (Mathf.Abs(transform.position.x - enemy.transform.position.x) + Mathf.Abs(transform.position.y - enemy.transform.position.y) <= attackRadius) // check is the enemy is near enough to attack
             {
-                if (enemy.playerNumber != gm.playerTurn && !hasAttacked) { // make sure you don't attack your allies
+                if (enemy.playerNumber != gm.playerTurn && !hasAttacked)
+                { // make sure you don't attack your allies
                     enemiesInRange.Add(enemy);
                     enemy.weaponIcon.SetActive(true);
                 }
@@ -160,7 +327,8 @@ public class Unit : MonoBehaviour
         StartCoroutine(StartMovement(movePos));
     }
 
-    void Attack(Unit enemy) {
+    void Attack(Unit enemy)
+    {
         hasAttacked = true;
 
         int enemyDamege = attackDamage - enemy.armor;
@@ -186,7 +354,9 @@ public class Unit : MonoBehaviour
                     d.Setup(unitDamage);
                 }
             }
-        } else {
+        }
+        else
+        {
             if (unitDamage >= 1)
             {
                 health -= unitDamage;
@@ -198,11 +368,12 @@ public class Unit : MonoBehaviour
 
         if (enemy.health <= 0)
         {
-         
-            if (deathEffect != null){
-				Instantiate(deathEffect, enemy.transform.position, Quaternion.identity);
-				camAnim.SetTrigger("shake");
-			}
+
+            if (deathEffect != null)
+            {
+                Instantiate(deathEffect, enemy.transform.position, Quaternion.identity);
+                camAnim.SetTrigger("shake");
+            }
 
             if (enemy.isKing)
             {
@@ -218,12 +389,12 @@ public class Unit : MonoBehaviour
         {
 
             if (deathEffect != null)
-			{
-				Instantiate(deathEffect, enemy.transform.position, Quaternion.identity);
-				camAnim.SetTrigger("shake");
-			}
+            {
+                Instantiate(deathEffect, enemy.transform.position, Quaternion.identity);
+                camAnim.SetTrigger("shake");
+            }
 
-			if (isKing)
+            if (isKing)
             {
                 gm.ShowVictoryPanel(playerNumber);
             }
@@ -234,11 +405,12 @@ public class Unit : MonoBehaviour
         }
 
         gm.UpdateInfoStats();
-  
+
 
     }
 
-    public void ResetWeaponIcon() {
+    public void ResetWeaponIcon()
+    {
         Unit[] enemies = FindObjectsOfType<Unit>();
         foreach (Unit enemy in enemies)
         {
@@ -246,10 +418,12 @@ public class Unit : MonoBehaviour
         }
     }
 
-    IEnumerator StartMovement(Transform movePos) { // Moves the character to his new position.
+    IEnumerator StartMovement(Transform movePos)
+    { // Moves the character to his new position.
 
 
-        while (transform.position.x != movePos.position.x) { // first aligns him with the new tile's x pos
+        while (transform.position.x != movePos.position.x)
+        { // first aligns him with the new tile's x pos
             transform.position = Vector2.MoveTowards(transform.position, new Vector2(movePos.position.x, transform.position.y), moveSpeed * Time.deltaTime);
             yield return null;
         }
@@ -269,3 +443,5 @@ public class Unit : MonoBehaviour
 
 
 }
+
+    */
