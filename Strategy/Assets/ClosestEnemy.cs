@@ -51,7 +51,6 @@ public class ClosestEnemy : MonoBehaviour
             { // how far he can move
                 if (tile.isClear() == true)
                 { // is the tile clear from any obstacles
-                    tile.Highlight();
                     walkableTiles.Add(tile); //Acuerdate de vaciarla
                 }
 

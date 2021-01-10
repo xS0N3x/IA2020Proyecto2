@@ -45,6 +45,8 @@ public class GM : MonoBehaviour
     public ClosestEnemy[] aux;
     public List<GameObject> enemies;
     public ClosestEnemy script;
+    public bool turnofinalizado = false;
+    public bool turnoiniciado = false; 
 
     private void Start()
     {
@@ -72,85 +74,36 @@ public class GM : MonoBehaviour
 
         /*Cambios*/
         if (playerTurn == 2) {
-            /*foreach (GameObject enemy in enemies) {
 
-                script = enemy.GetComponent<ClosestEnemy>();
-                MoveEnemy(enemy, script);
-                float tiempo = Time.time;
-                float tiempoFinal = tiempo + 20;
-                while (tiempo < tiempoFinal) {
-                    Debug.Log(tiempo);
-                    Debug.Log(tiempoFinal);
-                    tiempo += Time.deltaTime;
-                }
+            if (!turnoiniciado) {
+                StartCoroutine(ManageEnemies());
+                turnoiniciado = true;
+            }
             
-            }*/
-
-            for (int i = 0; i < enemies.Count; i++) {
-
-                script = enemies[i].GetComponent<ClosestEnemy>();
-                MoveEnemy(enemies[i], script);
-
+            if (turnofinalizado) {
+                EndTurn();
+                turnofinalizado = false;
+                turnoiniciado = false;
             }
-
-            /*List<bool> hasMoved = new List<bool>();
-
-            foreach (GameObject enemy in enemies) {
-                hasMoved.Add(false);
-            }
-
-            int i = 0;
-            bool actualizado = true;
-            while (hasMoved.Contains(false)) {
-
-                if (actualizado)
-                {
-                    script = enemies[i].GetComponent<ClosestEnemy>();
-                    script.FindNearestEnemy();
-                    script.GetWalkableTiles();
-                    script.FindClosestTile();
-                    actualizado = false;
-                }
-                
-
-                if (hasMoved[i] == false)
-                {
-
-                    MoveEnemy(enemies[i], script);
-
-                }
-                else {
-
-                    i += 1;
-                    actualizado = true;
-                
-                }
-
-            }*/
-
-            EndTurn();
         }
 
     }
 
-    public void MoveEnemy(GameObject enemy, ClosestEnemy script) {
-        
-        script.FindNearestEnemy();
-        script.GetWalkableTiles();
-        script.FindClosestTile();
+    IEnumerator ManageEnemies() {
 
-        //enemy.transform.position = (enemy.transform.position - script.closestTile.transform.position) * script.moveSpeed * Time.deltaTime;
-        /*while (enemy.transform.position.x != script.closestTile.transform.position.x)
-        { // first aligns him with the new tile's x pos
-            enemy.transform.position = Vector2.MoveTowards(enemy.transform.position, new Vector2(script.closestTile.transform.position.x, enemy.transform.position.y), script.moveSpeed * Time.deltaTime);
-        }
-        while (enemy.transform.position.y != script.closestTile.transform.position.y) // then y
+        foreach (GameObject enemy in enemies)
         {
-            enemy.transform.position = Vector2.MoveTowards(enemy.transform.position, new Vector2(enemy.transform.position.x, script.closestTile.transform.position.y), script.moveSpeed * Time.deltaTime);
-        }
-        script.walkableTiles.Clear();*/
+            script = enemy.GetComponent<ClosestEnemy>();
+            script.FindNearestEnemy();
+            script.GetWalkableTiles();
+            script.FindClosestTile();
+            StartCoroutine(StartMovement(enemy, script));
+            yield return new WaitForSecondsRealtime(1);
 
-        StartCoroutine(StartMovement(enemy, script));
+        }
+
+        turnofinalizado = true;
+       
     }
 
     IEnumerator StartMovement(GameObject enemy, ClosestEnemy script) {
