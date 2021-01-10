@@ -7,6 +7,9 @@ public class ClosestEnemy : MonoBehaviour
 {
     public float minDist = Mathf.Infinity;
     public Unit closestEnemy; //Tropas rojas
+    public ClosestEnemy closestAlly;
+    public Village closestVillage;
+    public Village closestAllyVillage;
     public Unit[] enemies;
     //public bool hasMoved;
     public int tileSpeed;
@@ -14,7 +17,10 @@ public class ClosestEnemy : MonoBehaviour
     public Tile closestTile;
     public float moveSpeed;
     public List<Unit> enemiesInRange = new List<Unit>();
+    public List<Village> villagesInRange = new List<Village>();
+    public ClosestEnemy[] allies;
     public int attackRadius;
+    public GM gm;
 
     public bool isKing;
     public Text displayedText;
@@ -28,6 +34,7 @@ public class ClosestEnemy : MonoBehaviour
     public int armor;
 
     public DamageIcon damageIcon;
+    public GameObject weaponIcon;
 
     // Start is called before the first frame update
     void Start()
@@ -50,6 +57,86 @@ public class ClosestEnemy : MonoBehaviour
                 closestEnemy = enemy;
             }
         }
+
+        minDist = Mathf.Infinity;
+    }
+
+    public void FindNearestAlly(ClosestEnemy[] lista)
+    {
+
+        foreach (ClosestEnemy ally in lista)
+        {
+            if (ally.tag != gameObject.tag) {
+
+                if (Mathf.Abs(transform.position.x - ally.transform.position.x) + Mathf.Abs(transform.position.y - ally.transform.position.y) <= minDist)
+                {
+                    minDist = Mathf.Abs(transform.position.x - ally.transform.position.x) + Mathf.Abs(transform.position.y - ally.transform.position.y);
+                    closestAlly = ally;
+                }
+
+            }
+            
+        }
+
+        minDist = Mathf.Infinity;
+    }
+
+    public void FindNearestAllyWithTag(ClosestEnemy[] lista, string tag)
+    {
+
+        foreach (ClosestEnemy ally in lista)
+        {
+            if (ally.tag != gameObject.tag && ally.tag == tag)
+            {
+
+                if (Mathf.Abs(transform.position.x - ally.transform.position.x) + Mathf.Abs(transform.position.y - ally.transform.position.y) <= minDist)
+                {
+                    minDist = Mathf.Abs(transform.position.x - ally.transform.position.x) + Mathf.Abs(transform.position.y - ally.transform.position.y);
+                    closestAlly = ally;
+                }
+
+            }
+
+        }
+
+        minDist = Mathf.Infinity;
+    }
+
+    public void FindNearestVillage(Village[] lista)
+    {
+
+        foreach (Village village in lista)
+        {
+            if (village.playerNumber == 1) {
+                if (Mathf.Abs(transform.position.x - village.transform.position.x) + Mathf.Abs(transform.position.y - village.transform.position.y) <= minDist)
+                {
+                    minDist = Mathf.Abs(transform.position.x - village.transform.position.x) + Mathf.Abs(transform.position.y - village.transform.position.y);
+                    closestVillage = village;
+                }
+            }
+            
+        }
+
+        minDist = Mathf.Infinity;
+    }
+
+    public void FindNearestAllyVillage(Village[] lista)
+    {
+
+        foreach (Village village in lista)
+        {
+            if (village.playerNumber == 2)
+            {
+                if (Mathf.Abs(transform.position.x - village.transform.position.x) + Mathf.Abs(transform.position.y - village.transform.position.y) <= minDist)
+                {
+                    minDist = Mathf.Abs(transform.position.x - village.transform.position.x) + Mathf.Abs(transform.position.y - village.transform.position.y);
+                    closestAllyVillage = village;
+                }
+            }
+
+        }
+
+        minDist = Mathf.Infinity;
     }
 
     public void GetWalkableTiles()
@@ -81,6 +168,26 @@ public class ClosestEnemy : MonoBehaviour
             }
         }
 
+        minDist = Mathf.Infinity;
+
+    }
+
+    public void FindClosestTile(Vector3 posicion)
+    {
+
+        minDist = Mathf.Infinity;
+
+        foreach (Tile tile in walkableTiles)
+        {
+            if (Mathf.Abs(posicion.x - tile.transform.position.x) + Mathf.Abs(posicion.y - tile.transform.position.y) < minDist)
+            {
+                minDist = Mathf.Abs(posicion.x - tile.transform.position.x) + Mathf.Abs(posicion.y - tile.transform.position.y);
+                closestTile = tile;
+            }
+        }
+
+        minDist = Mathf.Infinity;
+
     }
 
     public void GetEnemies()
@@ -101,6 +208,25 @@ public class ClosestEnemy : MonoBehaviour
         }
     }
 
+    public void GetVillages()
+    {
+
+        villagesInRange.Clear();
+
+        Village[]villages = FindObjectsOfType<Village>();
+        foreach (Village village in villages)
+        {
+            if (Mathf.Abs(transform.position.x - village.transform.position.x) + Mathf.Abs(transform.position.y - village.transform.position.y) <= attackRadius) // check is the enemy is near enough to attack
+            {
+
+                villagesInRange.Add(village);
+                village.weaponIcon.SetActive(true);
+
+            }
+        }
+
+    }
+
     public Unit FindLowestEnemy(List<Unit> lista)
     {
         Unit lowerEnemy = null;
@@ -116,5 +242,62 @@ public class ClosestEnemy : MonoBehaviour
         }
 
         return lowerEnemy;
+    }
+
+    public Village FindLowestVillage(List<Village> lista)
+    {
+        Village lowerVillage = null;
+        float minHealth = Mathf.Infinity;
+
+        foreach (Village village in lista)
+        {
+            if (village.health <= minHealth)
+            {
+                minHealth = village.health;
+                lowerVillage = village;
+            }
+        }
+
+        return lowerVillage;
+    }
+
+    public void UpdateHealthDisplay()
+    {
+        if (isKing)
+        {
+            displayedText.text = health.ToString();
+        }
+    }
+
+    private void OnMouseDown()
+    {
+        Collider2D col = Physics2D.OverlapCircle(Camera.main.ScreenToWorldPoint(Input.mousePosition), 0.15f);
+        if (col != null)
+        {
+            Debug.Log(col);
+          
+            ClosestEnemy unit = col.GetComponent<ClosestEnemy>(); // double check that what we clicked on is a enemy
+            if (unit != null)
+            {
+                Debug.Log(unit);
+                gm.selectedEnemy = unit;
+                allies = FindObjectsOfType<ClosestEnemy>();
+                List<ClosestEnemy> allyInRange = new List<ClosestEnemy>();
+
+                foreach (ClosestEnemy ally in allies) {
+                    if (Mathf.Abs(gm.selectedUnit.transform.position.x - ally.transform.position.x) + Mathf.Abs(gm.selectedUnit.transform.position.y - ally.transform.position.y) <= gm.selectedUnit.attackRadius) // check is the enemy is near enough to attack
+                    {
+                        allyInRange.Add(ally);
+                        ally.weaponIcon.SetActive(true);
+
+                    }
+                }
+
+                if (allyInRange.Contains(unit) && !gm.selectedUnit.hasAttacked) {
+                    gm.selectedUnit.Attack(unit);
+                    gm.ResetWeaponIcon();
+                }
+            }
+        }
     }
 }

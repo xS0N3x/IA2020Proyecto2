@@ -45,6 +45,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -126,6 +128,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -207,6 +211,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -288,6 +294,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -372,6 +380,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -453,6 +463,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -500,12 +512,13 @@ GameObject:
   - component: {fileID: 203797387408590349}
   - component: {fileID: 203797387408590350}
   - component: {fileID: 7466015109634168421}
-  - component: {fileID: 1888838832}
   - component: {fileID: 1584046052}
   - component: {fileID: 569263047}
+  - component: {fileID: 483094254}
+  - component: {fileID: 285340221}
   m_Layer: 9
   m_Name: Blue Knight
-  m_TagString: Untagged
+  m_TagString: Knight
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -574,37 +587,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.75, y: 0.75}
   m_EdgeRadius: 0
---- !u!114 &1888838832
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 203797387408590348}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6588128a3cedcd4bba4d2da7381e929, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isSelected: 0
-  hasMoved: 0
-  tileSpeed: 2
-  moveSpeed: 10
-  attackRadius: 1
-  hasAttacked: 0
-  enemiesInRange: []
-  playerNumber: 2
-  weaponIcon: {fileID: 2438361236584856755}
-  health: 5
-  attackDamage: 3
-  defenseDamage: 2
-  armor: 1
-  damageIcon: {fileID: -5891122600849735030, guid: eb780ffd3e6d6b64d993bc8583781d30,
-    type: 3}
-  cost: 40
-  deathEffect: {fileID: 8882834092664154197, guid: 43e58a09770a414488a4edf9a2bb5ea7,
-    type: 3}
-  isKing: 0
 --- !u!114 &1584046052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -714,6 +696,80 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &483094254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203797387408590348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7ba2e047baece54ea30d90f18662b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minDist: Infinity
+  closestEnemy: {fileID: 0}
+  closestAlly: {fileID: 0}
+  closestVillage: {fileID: 0}
+  closestAllyVillage: {fileID: 0}
+  enemies: []
+  tileSpeed: 3
+  walkableTiles: []
+  closestTile: {fileID: 0}
+  moveSpeed: 10
+  enemiesInRange: []
+  villagesInRange: []
+  attackRadius: 1
+  isKing: 0
+  displayedText: {fileID: 0}
+  deathEffect: {fileID: 8882834092664154197, guid: 43e58a09770a414488a4edf9a2bb5ea7,
+    type: 3}
+  playerNumber: 2
+  health: 5
+  attackDamage: 3
+  defenseDamage: 2
+  armor: 1
+  damageIcon: {fileID: -5891122600849735030, guid: eb780ffd3e6d6b64d993bc8583781d30,
+    type: 3}
+  weaponIcon: {fileID: 2438361236584856755}
+--- !u!114 &285340221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203797387408590348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7ba2e047baece54ea30d90f18662b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minDist: Infinity
+  closestEnemy: {fileID: 0}
+  closestAlly: {fileID: 0}
+  closestVillage: {fileID: 0}
+  closestAllyVillage: {fileID: 0}
+  enemies: []
+  tileSpeed: 3
+  walkableTiles: []
+  closestTile: {fileID: 0}
+  moveSpeed: 10
+  enemiesInRange: []
+  villagesInRange: []
+  attackRadius: 1
+  isKing: 0
+  displayedText: {fileID: 0}
+  deathEffect: {fileID: 8882834092664154197, guid: 43e58a09770a414488a4edf9a2bb5ea7,
+    type: 3}
+  playerNumber: 2
+  health: 5
+  attackDamage: 3
+  defenseDamage: 2
+  armor: 1
+  damageIcon: {fileID: -5891122600849735030, guid: eb780ffd3e6d6b64d993bc8583781d30,
+    type: 3}
+  weaponIcon: {fileID: 2438361236584856755}
 --- !u!1 &203797387714615603
 GameObject:
   m_ObjectHideFlags: 0
@@ -759,6 +815,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -840,6 +898,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

@@ -9,11 +9,14 @@ using System.Threading.Tasks;
 public class GM : MonoBehaviour
 {
     public Unit selectedUnit;
+    public ClosestEnemy selectedEnemy;
 
     public int playerTurn = 1;
 
     public Transform selectedUnitSquare;
 
+    private int enemyVillages;
+    private int allyVillages;
 
     private Animator camAnim;
     public Image playerIcon; 
@@ -97,7 +100,169 @@ public class GM : MonoBehaviour
         {
             script = enemy.GetComponent<ClosestEnemy>();
 
-            script.GetEnemies(); //Compruebo si hay enemigos al alcance actualmente
+            string tag = script.tag;
+
+            Village[] listaVillages = FindObjectsOfType<Village>();
+            ClosestEnemy[] listaAliados = FindObjectsOfType<ClosestEnemy>();
+            Unit[] lista = FindObjectsOfType<Unit>();
+
+            switch (tag) {
+                case "King":
+                    script.GetEnemies(); //Compruebo si hay enemigos al alcance actualmente
+                    if (script.enemiesInRange.Count > 0)
+                    {
+                        Unit lowerEnemy = script.FindLowestEnemy(script.enemiesInRange);
+                        StartCoroutine(Attack(lowerEnemy, script));
+                        yield return new WaitForSecondsRealtime(1);
+                    }
+                    else {
+                        script.FindNearestAlly(listaAliados);
+
+                        Vector3 puntoMedio;
+
+                        allyVillages = 0;
+                        foreach (Village village in listaVillages)
+                        {
+                            if (village.playerNumber == 2)
+                            {
+                                allyVillages += 1;
+                            }
+                        }
+
+                        if (allyVillages > 0)
+                        {
+                            script.FindNearestAllyVillage(listaVillages);
+                            puntoMedio = new Vector3(Mathf.Floor((script.closestAlly.transform.position.x + script.closestAllyVillage.transform.position.x) / 2),
+                                             Mathf.Floor((script.closestAlly.transform.position.y + script.closestAllyVillage.transform.position.y) / 2),
+                                             script.transform.position.z);
+                        }
+                        else {
+
+                             puntoMedio = script.closestAlly.transform.position;
+                        }
+                        script.GetWalkableTiles();
+                        script.FindClosestTile(puntoMedio);
+                        StartCoroutine(StartMovement(enemy, script));
+                        yield return new WaitForSecondsRealtime(1);
+
+                        script.GetEnemies(); //Compruebo si hay enemigos al alcance actualmente
+                        if (script.enemiesInRange.Count > 0)
+                        {
+
+                            Unit lowerEnemy = script.FindLowestEnemy(script.enemiesInRange);
+                            StartCoroutine(Attack(lowerEnemy, script));
+                            yield return new WaitForSecondsRealtime(1);
+                        }
+                    }
+
+                    break;
+                case "Knight":
+
+                    break;
+                case "Archer":
+
+                    script.GetEnemies(); //Compruebo si hay enemigos al alcance actualmente
+                    if (script.enemiesInRange.Count > 0)
+                    {
+                        Unit lowerEnemy = script.FindLowestEnemy(script.enemiesInRange);
+                        StartCoroutine(Attack(lowerEnemy, script));
+
+                    }
+                    else 
+                    {
+                        script.GetWalkableTiles();
+                        script.FindNearestAllyWithTag(listaAliados, "Bat");
+                        /*if () { 
+                        
+                        }*/
+                    }
+
+
+                    break;
+                case "Bat":
+
+                    script.GetEnemies(); //Compruebo si hay enemigos al alcance actualmente
+
+                    enemyVillages = 0;
+                    foreach (Village village in listaVillages) {
+                        if (village.playerNumber == 1) {
+                            enemyVillages += 1;
+                        }
+                    }
+
+                    if (enemyVillages > 0)
+                    {
+                        script.FindNearestVillage(listaVillages);
+                    }
+
+                    if (script.enemiesInRange.Count > 0)
+                    {
+                        Unit lowerEnemy = script.FindLowestEnemy(script.enemiesInRange);
+                        StartCoroutine(Attack(lowerEnemy, script));
+                        yield return new WaitForSecondsRealtime(1);
+
+                    } else if (script.villagesInRange.Count > 0) 
+                    {
+
+                        StartCoroutine(AttackVillage(script.closestVillage, script));
+                        yield return new WaitForSecondsRealtime(1);
+                    }
+                    else {
+
+                        enemyVillages = 0;
+                        foreach (Village village in listaVillages)
+                        {
+                            if (village.playerNumber == 1)
+                            {
+                                enemyVillages += 1;
+                            }
+                        }
+
+                        script.GetWalkableTiles();
+                        if (enemyVillages > 0) {
+                            script.FindClosestTile(script.closestVillage.transform.position);
+                        }
+                        else {
+                            script.FindNearestEnemy(lista);
+                            script.FindClosestTile();
+                        }
+                        StartCoroutine(StartMovement(enemy, script));
+                        yield return new WaitForSecondsRealtime(1);
+
+                        script.GetEnemies(); //Compruebo si hay enemigos al alcance actualmente
+                        if (enemyVillages > 0)
+                        {
+                            script.GetVillages();
+                        }
+                        if (script.enemiesInRange.Count > 0)
+                        {
+                            Unit lowerEnemy = script.FindLowestEnemy(script.enemiesInRange);
+
+                            if (lowerEnemy != null)
+                            {
+                                StartCoroutine(Attack(lowerEnemy, script));
+                                yield return new WaitForSecondsRealtime(1);
+                            }
+                            
+                        }
+                        else if (script.villagesInRange.Count > 0)
+                        {
+
+                            script.FindLowestVillage(script.villagesInRange);
+                            StartCoroutine(AttackVillage(script.closestVillage, script));
+                            yield return new WaitForSecondsRealtime(1);
+                            script.villagesInRange.Clear();
+                        }
+
+                        
+                    }
+
+                    break;
+                default:
+                    break;
+            }
+
+            /*script.GetEnemies(); //Compruebo si hay enemigos al alcance actualmente
             if (script.enemiesInRange.Count > 0)
             {
                 Unit lowerEnemy = script.FindLowestEnemy(script.enemiesInRange);
@@ -122,7 +287,8 @@ public class GM : MonoBehaviour
                     StartCoroutine(Attack(lowerEnemy, script));
                     yield return new WaitForSecondsRealtime(1);
                 }
-            }
+            }*/
+
 
         }
 
@@ -200,7 +366,7 @@ public class GM : MonoBehaviour
 
             if (script.deathEffect != null)
             {
-                Instantiate(script.deathEffect, enemy.transform.position, Quaternion.identity);
+                Instantiate(script.deathEffect, script.transform.position, Quaternion.identity);
                 camAnim.SetTrigger("shake");
             }
 
@@ -211,7 +377,61 @@ public class GM : MonoBehaviour
 
             ResetTiles(); // reset tiles when we die
             RemoveInfoPanel(script);
-            Destroy(gameObject);
+            Destroy(script.gameObject);
+        }
+
+        UpdateInfoStats();
+
+        yield return null;
+    }
+
+    IEnumerator AttackVillage(Village enemy, ClosestEnemy script)
+    {
+
+        int enemyDamege = script.attackDamage;
+
+        if (enemyDamege >= 1)
+        {
+            enemy.health -= enemyDamege;
+            DamageIcon d = Instantiate(script.damageIcon, enemy.transform.position, Quaternion.identity);
+            d.Setup(enemyDamege);
+        }
+
+        /*if (script.transform.tag == "Archer" && enemy.tag != "Archer")
+        {
+            if (Mathf.Abs(script.transform.position.x - enemy.transform.position.x) + Mathf.Abs(script.transform.position.y - enemy.transform.position.y) <= 1) // check is the enemy is near enough to attack
+            {
+                if (unitDamage >= 1)
+                {
+                    script.health -= unitDamage;
+                    UpdateHealthDisplay(script);
+                    DamageIcon d = Instantiate(script.damageIcon, script.transform.position, Quaternion.identity);
+                    d.Setup(unitDamage);
+                }
+            }
+        }
+        else
+        {
+            if (unitDamage >= 1)
+            {
+                script.health -= unitDamage;
+                UpdateHealthDisplay(script);
+                DamageIcon d = Instantiate(script.damageIcon, script.transform.position, Quaternion.identity);
+                d.Setup(unitDamage);
+            }
+        }*/
+
+        if (enemy.health <= 0)
+        {
+
+            if (script.deathEffect != null)
+            {
+                Instantiate(script.deathEffect, enemy.transform.position, Quaternion.identity);
+                camAnim.SetTrigger("shake");
+            }
+
+            script.GetWalkableTiles(); // check for new walkable tiles (if enemy has died we can now walk on his tile)
+            Destroy(enemy.gameObject);
         }
 
         UpdateInfoStats();
@@ -230,7 +450,20 @@ public class GM : MonoBehaviour
             enemy.transform.position = Vector2.MoveTowards(enemy.transform.position, new Vector2(enemy.transform.position.x, script.closestTile.transform.position.y), script.moveSpeed * Time.deltaTime);
             yield return null;
         }
+
         script.walkableTiles.Clear();
+        //selectedUnit.ResetWeaponIcon();
+        ResetWeaponIcon();
+    }
+
+
+    public void ResetWeaponIcon()
+    {
+        ClosestEnemy[] enemies = FindObjectsOfType<ClosestEnemy>();
+        foreach (ClosestEnemy enemy in enemies)
+        {
+            enemy.weaponIcon.SetActive(false);
+        }
     }
 
     // Sets panel active/inactive and moves it to the correct place
@@ -319,6 +552,8 @@ public class GM : MonoBehaviour
             unit.ResetWeaponIcon();
         }
 
+        ResetWeaponIcon();
+
         if (playerTurn == 1) { //esto se dejará
             playerIcon.sprite = playerTwoIcon;
             playerTurn = 2;
@@ -328,7 +563,6 @@ public class GM : MonoBehaviour
             aux = GameObject.Find("IAUnits").GetComponentsInChildren<ClosestEnemy>(); 
             for (int i = 0; i < aux.Length; i++) {
                 enemies.Add(aux[i].gameObject);
-                Debug.Log(enemies[i]);
             }
 
             /*Cambios*/

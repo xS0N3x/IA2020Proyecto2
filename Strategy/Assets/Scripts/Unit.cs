@@ -15,7 +15,7 @@ public class Unit : MonoBehaviour
 
     public int attackRadius;
     public bool hasAttacked;
-    public List<Unit> enemiesInRange = new List<Unit>();
+    public List<ClosestEnemy> enemiesInRange = new List<ClosestEnemy>();
 
     public int playerNumber;
 
@@ -92,20 +92,26 @@ public class Unit : MonoBehaviour
         }
 
 
+        /*if (enemiesInRange.Count > 0 && enemiesInRange.Contains(gm.selectedEnemy)) {
+            
+            gm.selectedUnit.Attack(gm.selectedEnemy);
+        }*/
 
-        Collider2D col = Physics2D.OverlapCircle(Camera.main.ScreenToWorldPoint(Input.mousePosition), 0.15f);
+        /*Collider2D col = Physics2D.OverlapCircle(Camera.main.ScreenToWorldPoint(Input.mousePosition), 0.15f);
         if (col != null)
         {
             Unit unit = col.GetComponent<Unit>(); // double check that what we clicked on is a unit
-            if (unit != null && gm.selectedUnit != null)
+            ClosestEnemy unit2 = col.GetComponent<ClosestEnemy>(); // double check that what we clicked on is a enemy
+            if ((unit != null || unit2 != null) && gm.selectedUnit != null )
             {
-                if (gm.selectedUnit.enemiesInRange.Contains(unit) && !gm.selectedUnit.hasAttacked)
+                if (enemiesInRange.Contains(unit2) && !gm.selectedUnit.hasAttacked)
                 { // does the currently selected unit have in his list the enemy we just clicked on
-                    gm.selectedUnit.Attack(unit);
+                    gm.selectedUnit.Attack(unit2);
 
                 }
             }
-        }
+        }*/
+        
     }
 
     private void OnMouseOver()
@@ -140,8 +146,8 @@ public class Unit : MonoBehaviour
     
         enemiesInRange.Clear();
 
-        Unit[] enemies = FindObjectsOfType<Unit>();
-        foreach (Unit enemy in enemies)
+        ClosestEnemy[] enemies = FindObjectsOfType<ClosestEnemy>();
+        foreach (ClosestEnemy enemy in enemies)
         {
             if (Mathf.Abs(transform.position.x - enemy.transform.position.x) + Mathf.Abs(transform.position.y - enemy.transform.position.y) <= attackRadius) // check is the enemy is near enough to attack
             {
@@ -152,6 +158,7 @@ public class Unit : MonoBehaviour
 
             }
         }
+        
     }
 
     public void Move(Transform movePos)
@@ -160,7 +167,7 @@ public class Unit : MonoBehaviour
         StartCoroutine(StartMovement(movePos));
     }
 
-    void Attack(Unit enemy) {
+    public void Attack(ClosestEnemy enemy) {
         hasAttacked = true;
 
         int enemyDamege = attackDamage - enemy.armor;
@@ -261,6 +268,7 @@ public class Unit : MonoBehaviour
 
         hasMoved = true;
         ResetWeaponIcon();
+        gm.ResetWeaponIcon();
         GetEnemies();
         gm.MoveInfoPanel(this);
     }

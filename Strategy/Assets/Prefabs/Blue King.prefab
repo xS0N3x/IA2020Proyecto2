@@ -45,6 +45,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -125,6 +127,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -206,6 +210,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -286,6 +292,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -367,6 +375,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -448,6 +458,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -532,6 +544,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -577,14 +591,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 179943397156523661}
-  - component: {fileID: 179943397156523651}
   - component: {fileID: 179943397156523650}
   - component: {fileID: 179943397156523649}
   - component: {fileID: 179943397156523660}
   - component: {fileID: 1595627686}
+  - component: {fileID: 1409312434}
   m_Layer: 9
   m_Name: Blue King
-  m_TagString: Untagged
+  m_TagString: King
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -607,37 +621,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &179943397156523651
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 179943397156523648}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6588128a3cedcd4bba4d2da7381e929, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isSelected: 0
-  hasMoved: 0
-  tileSpeed: 2
-  moveSpeed: 10
-  attackRadius: 1
-  hasAttacked: 0
-  enemiesInRange: []
-  playerNumber: 2
-  weaponIcon: {fileID: 179943396338207515}
-  health: 20
-  attackDamage: 5
-  defenseDamage: 4
-  armor: 1
-  damageIcon: {fileID: -5891122600849735030, guid: eb780ffd3e6d6b64d993bc8583781d30,
-    type: 3}
-  cost: 30
-  deathEffect: {fileID: 8882834092664154197, guid: 43e58a09770a414488a4edf9a2bb5ea7,
-    type: 3}
-  isKing: 1
 --- !u!114 &179943397156523650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -792,3 +775,40 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1409312434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179943397156523648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7ba2e047baece54ea30d90f18662b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minDist: Infinity
+  closestEnemy: {fileID: 0}
+  closestAlly: {fileID: 0}
+  closestVillage: {fileID: 0}
+  closestAllyVillage: {fileID: 0}
+  enemies: []
+  tileSpeed: 2
+  walkableTiles: []
+  closestTile: {fileID: 0}
+  moveSpeed: 10
+  enemiesInRange: []
+  villagesInRange: []
+  attackRadius: 1
+  isKing: 1
+  displayedText: {fileID: 0}
+  deathEffect: {fileID: 8882834092664154197, guid: 43e58a09770a414488a4edf9a2bb5ea7,
+    type: 3}
+  playerNumber: 2
+  health: 15
+  attackDamage: 5
+  defenseDamage: 4
+  armor: 1
+  damageIcon: {fileID: -5891122600849735030, guid: eb780ffd3e6d6b64d993bc8583781d30,
+    type: 3}
+  weaponIcon: {fileID: 179943396338207515}

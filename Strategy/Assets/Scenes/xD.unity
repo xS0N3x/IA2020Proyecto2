@@ -729,25 +729,23 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1210015699}
     m_Modifications:
+    - target: {fileID: 1409312434, guid: 0fb875a05caa9ef42bc5ab8ca814b69d, type: 3}
+      propertyPath: gm
+      value: 
+      objectReference: {fileID: 1570414220}
+    - target: {fileID: 1409312434, guid: 0fb875a05caa9ef42bc5ab8ca814b69d, type: 3}
+      propertyPath: displayedText
+      value: 
+      objectReference: {fileID: 309623736}
     - target: {fileID: 179943397156523648, guid: 0fb875a05caa9ef42bc5ab8ca814b69d,
         type: 3}
       propertyPath: m_Name
       value: Blue King
       objectReference: {fileID: 0}
-    - target: {fileID: 179943397156523651, guid: 0fb875a05caa9ef42bc5ab8ca814b69d,
-        type: 3}
-      propertyPath: health
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 179943397156523651, guid: 0fb875a05caa9ef42bc5ab8ca814b69d,
-        type: 3}
-      propertyPath: displayedText
-      value: 
-      objectReference: {fileID: 309623736}
     - target: {fileID: 179943397156523661, guid: 0fb875a05caa9ef42bc5ab8ca814b69d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 179943397156523661, guid: 0fb875a05caa9ef42bc5ab8ca814b69d,
         type: 3}
@@ -762,7 +760,7 @@ PrefabInstance:
     - target: {fileID: 179943397156523661, guid: 0fb875a05caa9ef42bc5ab8ca814b69d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.46855667
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 179943397156523661, guid: 0fb875a05caa9ef42bc5ab8ca814b69d,
         type: 3}
@@ -799,8 +797,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 179943397156523651, guid: 0fb875a05caa9ef42bc5ab8ca814b69d, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fb875a05caa9ef42bc5ab8ca814b69d, type: 3}
 --- !u!1001 &10270698
 PrefabInstance:
@@ -11272,7 +11269,7 @@ PrefabInstance:
     - target: {fileID: 484875169853229662, guid: f054a74375d258145b59bb210d52b539,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 484875169853229662, guid: f054a74375d258145b59bb210d52b539,
         type: 3}
@@ -11287,7 +11284,7 @@ PrefabInstance:
     - target: {fileID: 484875169853229662, guid: f054a74375d258145b59bb210d52b539,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.8361183
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 484875169853229662, guid: f054a74375d258145b59bb210d52b539,
         type: 3}
@@ -11328,6 +11325,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Dark King
+      objectReference: {fileID: 0}
+    - target: {fileID: 484875169853229663, guid: f054a74375d258145b59bb210d52b539,
+        type: 3}
+      propertyPath: m_TagString
+      value: King
       objectReference: {fileID: 0}
     - target: {fileID: 484875169938893823, guid: f054a74375d258145b59bb210d52b539,
         type: 3}
@@ -12464,44 +12466,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 6, y: 5.5}
   m_EdgeRadius: 0
---- !u!1 &285340218 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 203797387408590348, guid: e4ad95c761a65f243b449f1e95d0c00e,
-    type: 3}
-  m_PrefabInstance: {fileID: 446355471}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &285340221
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 285340218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7ba2e047baece54ea30d90f18662b4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minDist: Infinity
-  closestEnemy: {fileID: 0}
-  enemies: []
-  tileSpeed: 2
-  walkableTiles: []
-  closestTile: {fileID: 0}
-  moveSpeed: 10
-  enemiesInRange: []
-  attackRadius: 1
-  isKing: 0
-  displayedText: {fileID: 0}
-  deathEffect: {fileID: 8882834092664154197, guid: 43e58a09770a414488a4edf9a2bb5ea7,
-    type: 3}
-  playerNumber: 2
-  health: 5
-  attackDamage: 3
-  defenseDamage: 2
-  armor: 1
-  damageIcon: {fileID: -5891122600849735030, guid: eb780ffd3e6d6b64d993bc8583781d30,
-    type: 3}
 --- !u!1 &286259228 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7677967910336022200, guid: d0745185e498645d1b87c30c3d4a70aa,
@@ -18842,44 +18806,6 @@ PrefabInstance:
     - {fileID: 3588344972070875810, guid: d0745185e498645d1b87c30c3d4a70aa, type: 3}
     - {fileID: 8976769020611957772, guid: d0745185e498645d1b87c30c3d4a70aa, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d0745185e498645d1b87c30c3d4a70aa, type: 3}
---- !u!1 &429358815 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3831706681586816672, guid: 0f0a2447a78d86143a35917ac0efe6e7,
-    type: 3}
-  m_PrefabInstance: {fileID: 621101274}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &429358819
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 429358815}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7ba2e047baece54ea30d90f18662b4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minDist: Infinity
-  closestEnemy: {fileID: 0}
-  enemies: []
-  tileSpeed: 4
-  walkableTiles: []
-  closestTile: {fileID: 0}
-  moveSpeed: 10
-  enemiesInRange: []
-  attackRadius: 1
-  isKing: 0
-  displayedText: {fileID: 0}
-  deathEffect: {fileID: 8882834092664154197, guid: 43e58a09770a414488a4edf9a2bb5ea7,
-    type: 3}
-  playerNumber: 2
-  health: 7
-  attackDamage: 4
-  defenseDamage: 3
-  armor: 2
-  damageIcon: {fileID: -5891122600849735030, guid: eb780ffd3e6d6b64d993bc8583781d30,
-    type: 3}
 --- !u!1 &429595618
 GameObject:
   m_ObjectHideFlags: 0
@@ -19812,11 +19738,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1210015699}
     m_Modifications:
-    - target: {fileID: 1888838832, guid: e4ad95c761a65f243b449f1e95d0c00e, type: 3}
-      propertyPath: deathEffect
+    - target: {fileID: 483094254, guid: e4ad95c761a65f243b449f1e95d0c00e, type: 3}
+      propertyPath: gm
       value: 
-      objectReference: {fileID: 8882834092664154197, guid: 43e58a09770a414488a4edf9a2bb5ea7,
-        type: 3}
+      objectReference: {fileID: 1570414220}
     - target: {fileID: 203797387408590348, guid: e4ad95c761a65f243b449f1e95d0c00e,
         type: 3}
       propertyPath: m_Name
@@ -19825,7 +19750,7 @@ PrefabInstance:
     - target: {fileID: 203797387408590349, guid: e4ad95c761a65f243b449f1e95d0c00e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 203797387408590349, guid: e4ad95c761a65f243b449f1e95d0c00e,
         type: 3}
@@ -19840,7 +19765,7 @@ PrefabInstance:
     - target: {fileID: 203797387408590349, guid: e4ad95c761a65f243b449f1e95d0c00e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.3675616
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 203797387408590349, guid: e4ad95c761a65f243b449f1e95d0c00e,
         type: 3}
@@ -19877,8 +19802,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1888838832, guid: e4ad95c761a65f243b449f1e95d0c00e, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e4ad95c761a65f243b449f1e95d0c00e, type: 3}
 --- !u!4 &446355472 stripped
 Transform:
@@ -20628,11 +20552,11 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1676559951}
   - {fileID: 1622199997}
-  - {fileID: 1286182892}
+  - {fileID: 1676559951}
   - {fileID: 516913011}
   - {fileID: 1192281179}
+  - {fileID: 1286182892}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -20713,44 +20637,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 471685147}
   m_CullTransparentMesh: 0
---- !u!1 &483094251 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 203797387408590348, guid: e4ad95c761a65f243b449f1e95d0c00e,
-    type: 3}
-  m_PrefabInstance: {fileID: 203797387055925732}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &483094254
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 483094251}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7ba2e047baece54ea30d90f18662b4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minDist: Infinity
-  closestEnemy: {fileID: 0}
-  enemies: []
-  tileSpeed: 2
-  walkableTiles: []
-  closestTile: {fileID: 0}
-  moveSpeed: 10
-  enemiesInRange: []
-  attackRadius: 1
-  isKing: 0
-  displayedText: {fileID: 0}
-  deathEffect: {fileID: 8882834092664154197, guid: 43e58a09770a414488a4edf9a2bb5ea7,
-    type: 3}
-  playerNumber: 2
-  health: 5
-  attackDamage: 3
-  defenseDamage: 2
-  armor: 1
-  damageIcon: {fileID: -5891122600849735030, guid: eb780ffd3e6d6b64d993bc8583781d30,
-    type: 3}
 --- !u!1 &485368679
 GameObject:
   m_ObjectHideFlags: 0
@@ -21422,6 +21308,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3293640991218369720, guid: e29861ac58e55d04ca67678a523a8c67,
         type: 3}
+      propertyPath: tileSpeed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3293640991218369720, guid: e29861ac58e55d04ca67678a523a8c67,
+        type: 3}
       propertyPath: deathEffect
       value: 
       objectReference: {fileID: 8882834092664154197, guid: 43e58a09770a414488a4edf9a2bb5ea7,
@@ -21444,7 +21335,7 @@ PrefabInstance:
     - target: {fileID: 3293640991218369722, guid: e29861ac58e55d04ca67678a523a8c67,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 3293640991218369722, guid: e29861ac58e55d04ca67678a523a8c67,
         type: 3}
@@ -23136,7 +23027,7 @@ PrefabInstance:
     - target: {fileID: 1642533359335901392, guid: 88b3f3ba5316f7e45aac1f15d6b71e81,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1642533359335901392, guid: 88b3f3ba5316f7e45aac1f15d6b71e81,
         type: 3}
@@ -23151,7 +23042,7 @@ PrefabInstance:
     - target: {fileID: 1642533359335901392, guid: 88b3f3ba5316f7e45aac1f15d6b71e81,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.5277877
+      value: -4
       objectReference: {fileID: 0}
     - target: {fileID: 1642533359335901392, guid: 88b3f3ba5316f7e45aac1f15d6b71e81,
         type: 3}
@@ -27459,6 +27350,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1210015699}
     m_Modifications:
+    - target: {fileID: 429358819, guid: 0f0a2447a78d86143a35917ac0efe6e7, type: 3}
+      propertyPath: gm
+      value: 
+      objectReference: {fileID: 1570414220}
     - target: {fileID: 3831706681586816672, guid: 0f0a2447a78d86143a35917ac0efe6e7,
         type: 3}
       propertyPath: m_Name
@@ -27467,7 +27362,7 @@ PrefabInstance:
     - target: {fileID: 3831706681586816703, guid: 0f0a2447a78d86143a35917ac0efe6e7,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3831706681586816703, guid: 0f0a2447a78d86143a35917ac0efe6e7,
         type: 3}
@@ -27482,7 +27377,7 @@ PrefabInstance:
     - target: {fileID: 3831706681586816703, guid: 0f0a2447a78d86143a35917ac0efe6e7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.160226
+      value: -4
       objectReference: {fileID: 0}
     - target: {fileID: 3831706681586816703, guid: 0f0a2447a78d86143a35917ac0efe6e7,
         type: 3}
@@ -27519,8 +27414,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3831706681586816701, guid: 0f0a2447a78d86143a35917ac0efe6e7, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f0a2447a78d86143a35917ac0efe6e7, type: 3}
 --- !u!1 &624728433 stripped
 GameObject:
@@ -48732,6 +48626,12 @@ PrefabInstance:
     - {fileID: 3588344972070875810, guid: d0745185e498645d1b87c30c3d4a70aa, type: 3}
     - {fileID: 8976769020611957772, guid: d0745185e498645d1b87c30c3d4a70aa, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d0745185e498645d1b87c30c3d4a70aa, type: 3}
+--- !u!1 &1131349327 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 956842554646818022, guid: da3435065a89e2442b5138b621f7826c,
+    type: 3}
+  m_PrefabInstance: {fileID: 3088244331289490124}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1137421490
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49887,6 +49787,12 @@ PrefabInstance:
     - {fileID: 3588344972070875810, guid: d0745185e498645d1b87c30c3d4a70aa, type: 3}
     - {fileID: 8976769020611957772, guid: d0745185e498645d1b87c30c3d4a70aa, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d0745185e498645d1b87c30c3d4a70aa, type: 3}
+--- !u!1 &1184762039 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6788590429830507946, guid: 76ee34c1b9be29f4ebb1071fbfe8504a,
+    type: 3}
+  m_PrefabInstance: {fileID: 4688297138410990510}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1184802352
 GameObject:
   m_ObjectHideFlags: 0
@@ -50432,15 +50338,24 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 467940898}
     m_Modifications:
+    - target: {fileID: 794876514, guid: f39be49cad0c02340820d187847171e4, type: 3}
+      propertyPath: tileSpeed
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4446637798450979530, guid: f39be49cad0c02340820d187847171e4,
         type: 3}
       propertyPath: m_Name
       value: Dark Knight (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 4446637798450979530, guid: f39be49cad0c02340820d187847171e4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Knight
+      objectReference: {fileID: 0}
     - target: {fileID: 4446637798450979531, guid: f39be49cad0c02340820d187847171e4,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4446637798450979531, guid: f39be49cad0c02340820d187847171e4,
         type: 3}
@@ -50455,7 +50370,7 @@ PrefabInstance:
     - target: {fileID: 4446637798450979531, guid: f39be49cad0c02340820d187847171e4,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 4446637798450979531, guid: f39be49cad0c02340820d187847171e4,
         type: 3}
@@ -51324,11 +51239,11 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 360061869}
   - {fileID: 528418115}
-  - {fileID: 1199478971}
+  - {fileID: 360061869}
   - {fileID: 1888838835}
   - {fileID: 446355472}
+  - {fileID: 1199478971}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -57479,10 +57394,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1210015699}
     m_Modifications:
+    - target: {fileID: 1885440433, guid: dfd3953b532394b459bb5b605feb9936, type: 3}
+      propertyPath: gm
+      value: 
+      objectReference: {fileID: 1570414220}
     - target: {fileID: 626269173632994742, guid: dfd3953b532394b459bb5b605feb9936,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 626269173632994742, guid: dfd3953b532394b459bb5b605feb9936,
         type: 3}
@@ -57497,7 +57416,7 @@ PrefabInstance:
     - target: {fileID: 626269173632994742, guid: dfd3953b532394b459bb5b605feb9936,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.9965539
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 626269173632994742, guid: dfd3953b532394b459bb5b605feb9936,
         type: 3}
@@ -57539,8 +57458,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Blue Archer
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 626269173632994736, guid: dfd3953b532394b459bb5b605feb9936, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dfd3953b532394b459bb5b605feb9936, type: 3}
 --- !u!1 &1373695100 stripped
 GameObject:
@@ -59269,38 +59187,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7991915}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1409312434
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1409312429}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7ba2e047baece54ea30d90f18662b4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minDist: Infinity
-  closestEnemy: {fileID: 0}
-  enemies: []
-  tileSpeed: 2
-  walkableTiles: []
-  closestTile: {fileID: 0}
-  moveSpeed: 10
-  enemiesInRange: []
-  attackRadius: 1
-  isKing: 1
-  displayedText: {fileID: 309623736}
-  deathEffect: {fileID: 8882834092664154197, guid: 43e58a09770a414488a4edf9a2bb5ea7,
-    type: 3}
-  playerNumber: 2
-  health: 15
-  attackDamage: 5
-  defenseDamage: 4
-  armor: 1
-  damageIcon: {fileID: -5891122600849735030, guid: eb780ffd3e6d6b64d993bc8583781d30,
-    type: 3}
 --- !u!1 &1411393257 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3293640991218369701, guid: e29861ac58e55d04ca67678a523a8c67,
@@ -64437,6 +64323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedUnit: {fileID: 0}
+  selectedEnemy: {fileID: 0}
   playerTurn: 1
   selectedUnitSquare: {fileID: 1941641901}
   playerIcon: {fileID: 1193931158}
@@ -78278,6 +78165,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 467940898}
     m_Modifications:
     - target: {fileID: 794876514, guid: f39be49cad0c02340820d187847171e4, type: 3}
+      propertyPath: tileSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 794876514, guid: f39be49cad0c02340820d187847171e4, type: 3}
       propertyPath: deathEffect
       value: 
       objectReference: {fileID: 8882834092664154197, guid: 43e58a09770a414488a4edf9a2bb5ea7,
@@ -78287,10 +78178,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dark Knight (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 4446637798450979530, guid: f39be49cad0c02340820d187847171e4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Knight
+      objectReference: {fileID: 0}
     - target: {fileID: 4446637798450979531, guid: f39be49cad0c02340820d187847171e4,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4446637798450979531, guid: f39be49cad0c02340820d187847171e4,
         type: 3}
@@ -78305,7 +78201,7 @@ PrefabInstance:
     - target: {fileID: 4446637798450979531, guid: f39be49cad0c02340820d187847171e4,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 4446637798450979531, guid: f39be49cad0c02340820d187847171e4,
         type: 3}
@@ -82080,44 +81976,6 @@ PrefabInstance:
     - {fileID: 3588344972070875810, guid: d0745185e498645d1b87c30c3d4a70aa, type: 3}
     - {fileID: 8976769020611957772, guid: d0745185e498645d1b87c30c3d4a70aa, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d0745185e498645d1b87c30c3d4a70aa, type: 3}
---- !u!1 &1885440429 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 626269173632994743, guid: dfd3953b532394b459bb5b605feb9936,
-    type: 3}
-  m_PrefabInstance: {fileID: 1372252080}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1885440433
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1885440429}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7ba2e047baece54ea30d90f18662b4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minDist: Infinity
-  closestEnemy: {fileID: 0}
-  enemies: []
-  tileSpeed: 5
-  walkableTiles: []
-  closestTile: {fileID: 0}
-  moveSpeed: 10
-  enemiesInRange: []
-  attackRadius: 2
-  isKing: 0
-  displayedText: {fileID: 0}
-  deathEffect: {fileID: 8882834092664154197, guid: 43e58a09770a414488a4edf9a2bb5ea7,
-    type: 3}
-  playerNumber: 2
-  health: 4
-  attackDamage: 4
-  defenseDamage: 2
-  armor: 1
-  damageIcon: {fileID: -5891122600849735030, guid: eb780ffd3e6d6b64d993bc8583781d30,
-    type: 3}
 --- !u!4 &1888838835 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 203797387408590349, guid: e4ad95c761a65f243b449f1e95d0c00e,
@@ -93735,6 +93593,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1210015699}
     m_Modifications:
+    - target: {fileID: 483094254, guid: e4ad95c761a65f243b449f1e95d0c00e, type: 3}
+      propertyPath: gm
+      value: 
+      objectReference: {fileID: 1570414220}
     - target: {fileID: 203797387408590348, guid: e4ad95c761a65f243b449f1e95d0c00e,
         type: 3}
       propertyPath: m_Name
@@ -93743,7 +93605,7 @@ PrefabInstance:
     - target: {fileID: 203797387408590349, guid: e4ad95c761a65f243b449f1e95d0c00e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 203797387408590349, guid: e4ad95c761a65f243b449f1e95d0c00e,
         type: 3}
@@ -93758,7 +93620,7 @@ PrefabInstance:
     - target: {fileID: 203797387408590349, guid: e4ad95c761a65f243b449f1e95d0c00e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.3675616
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 203797387408590349, guid: e4ad95c761a65f243b449f1e95d0c00e,
         type: 3}
@@ -93795,8 +93657,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1888838832, guid: e4ad95c761a65f243b449f1e95d0c00e, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e4ad95c761a65f243b449f1e95d0c00e, type: 3}
 --- !u!1001 &3088244331289490124
 PrefabInstance:
@@ -93805,10 +93666,37 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1748344637}
     m_Modifications:
+    - target: {fileID: 726293821197588629, guid: da3435065a89e2442b5138b621f7826c,
+        type: 3}
+      propertyPath: health
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 726293821197588629, guid: da3435065a89e2442b5138b621f7826c,
+        type: 3}
+      propertyPath: damageIcon
+      value: 
+      objectReference: {fileID: -5891122600849735030, guid: eb780ffd3e6d6b64d993bc8583781d30,
+        type: 3}
+    - target: {fileID: 726293821197588629, guid: da3435065a89e2442b5138b621f7826c,
+        type: 3}
+      propertyPath: weaponIcon
+      value: 
+      objectReference: {fileID: 1131349327}
+    - target: {fileID: 726293821197588629, guid: da3435065a89e2442b5138b621f7826c,
+        type: 3}
+      propertyPath: deathEffect
+      value: 
+      objectReference: {fileID: 8882834092664154197, guid: 43e58a09770a414488a4edf9a2bb5ea7,
+        type: 3}
     - target: {fileID: 7767452286446655037, guid: da3435065a89e2442b5138b621f7826c,
         type: 3}
       propertyPath: m_Name
       value: Dark Village
+      objectReference: {fileID: 0}
+    - target: {fileID: 7767452286446655037, guid: da3435065a89e2442b5138b621f7826c,
+        type: 3}
+      propertyPath: m_TagString
+      value: Village
       objectReference: {fileID: 0}
     - target: {fileID: 7767452286446655039, guid: da3435065a89e2442b5138b621f7826c,
         type: 3}
@@ -93934,5 +93822,32 @@ PrefabInstance:
       propertyPath: m_Name
       value: Blue Village
       objectReference: {fileID: 0}
+    - target: {fileID: 4688297137751264698, guid: 76ee34c1b9be29f4ebb1071fbfe8504a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Village
+      objectReference: {fileID: 0}
+    - target: {fileID: 4905471955937416695, guid: 76ee34c1b9be29f4ebb1071fbfe8504a,
+        type: 3}
+      propertyPath: health
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4905471955937416695, guid: 76ee34c1b9be29f4ebb1071fbfe8504a,
+        type: 3}
+      propertyPath: damageIcon
+      value: 
+      objectReference: {fileID: -5891122600849735030, guid: eb780ffd3e6d6b64d993bc8583781d30,
+        type: 3}
+    - target: {fileID: 4905471955937416695, guid: 76ee34c1b9be29f4ebb1071fbfe8504a,
+        type: 3}
+      propertyPath: weaponIcon
+      value: 
+      objectReference: {fileID: 1184762039}
+    - target: {fileID: 4905471955937416695, guid: 76ee34c1b9be29f4ebb1071fbfe8504a,
+        type: 3}
+      propertyPath: deathEffect
+      value: 
+      objectReference: {fileID: 8882834092664154197, guid: 43e58a09770a414488a4edf9a2bb5ea7,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76ee34c1b9be29f4ebb1071fbfe8504a, type: 3}

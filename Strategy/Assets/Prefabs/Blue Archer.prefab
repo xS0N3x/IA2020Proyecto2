@@ -45,6 +45,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -128,6 +130,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -209,6 +213,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -290,6 +296,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -371,6 +379,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -451,6 +461,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -532,6 +544,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -578,10 +592,10 @@ GameObject:
   m_Component:
   - component: {fileID: 626269173632994742}
   - component: {fileID: 626269173632994737}
-  - component: {fileID: 626269173632994736}
   - component: {fileID: 626269173632994739}
   - component: {fileID: 626269173632994738}
   - component: {fileID: 1547342092}
+  - component: {fileID: 1885440433}
   m_Layer: 9
   m_Name: Blue Archer
   m_TagString: Archer
@@ -627,37 +641,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &626269173632994736
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 626269173632994743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6588128a3cedcd4bba4d2da7381e929, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isSelected: 0
-  hasMoved: 0
-  tileSpeed: 5
-  moveSpeed: 10
-  attackRadius: 2
-  hasAttacked: 0
-  enemiesInRange: []
-  playerNumber: 2
-  weaponIcon: {fileID: 626269173125141466}
-  health: 4
-  attackDamage: 4
-  defenseDamage: 2
-  armor: 1
-  damageIcon: {fileID: -5891122600849735030, guid: eb780ffd3e6d6b64d993bc8583781d30,
-    type: 3}
-  cost: 70
-  deathEffect: {fileID: 8882834092664154197, guid: 43e58a09770a414488a4edf9a2bb5ea7,
-    type: 3}
-  isKing: 0
 --- !u!61 &626269173632994739
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -793,6 +776,43 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1885440433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626269173632994743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7ba2e047baece54ea30d90f18662b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minDist: Infinity
+  closestEnemy: {fileID: 0}
+  closestAlly: {fileID: 0}
+  closestVillage: {fileID: 0}
+  closestAllyVillage: {fileID: 0}
+  enemies: []
+  tileSpeed: 4
+  walkableTiles: []
+  closestTile: {fileID: 0}
+  moveSpeed: 10
+  enemiesInRange: []
+  villagesInRange: []
+  attackRadius: 2
+  isKing: 0
+  displayedText: {fileID: 0}
+  deathEffect: {fileID: 8882834092664154197, guid: 43e58a09770a414488a4edf9a2bb5ea7,
+    type: 3}
+  playerNumber: 2
+  health: 4
+  attackDamage: 4
+  defenseDamage: 2
+  armor: 1
+  damageIcon: {fileID: -5891122600849735030, guid: eb780ffd3e6d6b64d993bc8583781d30,
+    type: 3}
+  weaponIcon: {fileID: 626269173125141466}
 --- !u!1 &626269174062472869
 GameObject:
   m_ObjectHideFlags: 0
@@ -838,6 +858,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
