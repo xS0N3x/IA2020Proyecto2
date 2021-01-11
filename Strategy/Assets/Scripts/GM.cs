@@ -55,13 +55,18 @@ public class GM : MonoBehaviour
     public bool movimientosRealizados = false;
 
     public GameObject villageIA;
-    public GameObject EnemyIA;
+    public GameObject EnemyIAArcher;
+    public GameObject EnemyIABat;
+    public GameObject EnemyIAKnight;
+
 
     public ClosestEnemy lowerEnemy;
 
     Village[] listaVillages;
     ClosestEnemy[] listaAliados;
     Unit[] lista;
+
+    public GameObject unidadCreada;
 
     private void Start()
     {
@@ -96,6 +101,12 @@ public class GM : MonoBehaviour
             listaAliados = FindObjectsOfType<ClosestEnemy>();
             lista = FindObjectsOfType<Unit>();
 
+            foreach (ClosestEnemy pavo in listaAliados) {
+                if (pavo.gm == null) {
+                    pavo.gm = gameObject.GetComponent<GM>();
+                    unidadCreada = pavo.gameObject;
+                }
+            }
 
             if (!turnoiniciado) {
                 StartCoroutine(ManageEnemies());
@@ -130,8 +141,6 @@ public class GM : MonoBehaviour
         int blueKnights = 0;
         int blueArchers = 0;
         int blueVillages = 0;
-        int azules = 0;
-        int rojos = 0;
 
         //scriptCreacion.cratableTilesIA;
 
@@ -171,8 +180,8 @@ public class GM : MonoBehaviour
             }
         }
 
-        azules = blueArchers + blueBats + blueKnights;
-        rojos = redArchers + redBats + redKnights;
+        int azules = blueArchers + blueBats + blueKnights;
+        int rojos = redArchers + redBats + redKnights;
 
         if (azules < rojos)
         {
@@ -180,14 +189,98 @@ public class GM : MonoBehaviour
             if (blueBats < redBats && player2Gold >= 80)
             {
                 //comprar Bat --> 80g
+                scriptCreacion.SetCreatableTiles();
+                player2Gold -= 80;
+                float minX = Mathf.Infinity;
+                float minY = Mathf.Infinity;
+                Tile desiredTile = null;
+
+                foreach (Tile tile in scriptCreacion.cratableTilesIA)
+                {
+
+                    if (tile.transform.position.x < minX)
+                    {
+                        minX = tile.transform.position.x;
+                        minY = tile.transform.position.y;
+                        desiredTile = tile;
+                    }
+                    else if (tile.transform.position.y < minY)
+                    {
+                        minX = tile.transform.position.x;
+                        minY = tile.transform.position.y;
+                        desiredTile = tile;
+                    }
+
+                }
+                Instantiate(EnemyIABat, new Vector3(desiredTile.transform.position.x, desiredTile.transform.position.y, 0), Quaternion.identity);
+                ResetTiles();
+                createdVillage = null;
+
+                yield return new WaitForSecondsRealtime(1);
             }
             else if ((blueArchers < redArchers && player2Gold >= 90) || (blueArchers < redKnights && player2Gold >= 70 && azules < 3))
             {
                 //comprar archer --> 70g
+                scriptCreacion.SetCreatableTiles();
+                player2Gold -= 70;
+                float minX = Mathf.Infinity;
+                float minY = Mathf.Infinity;
+                Tile desiredTile = null;
+
+                foreach (Tile tile in scriptCreacion.cratableTilesIA)
+                {
+
+                    if (tile.transform.position.x < minX)
+                    {
+                        minX = tile.transform.position.x;
+                        minY = tile.transform.position.y;
+                        desiredTile = tile;
+                    }
+                    else if (tile.transform.position.y < minY)
+                    {
+                        minX = tile.transform.position.x;
+                        minY = tile.transform.position.y;
+                        desiredTile = tile;
+                    }
+
+                }
+                Instantiate(EnemyIAArcher, new Vector3(desiredTile.transform.position.x, desiredTile.transform.position.y, 0), Quaternion.identity);
+                ResetTiles();
+                createdVillage = null;
+
+                yield return new WaitForSecondsRealtime(1);
             }
             else if ((blueKnights < redKnights && player2Gold >= 80) || (blueKnights < redKnights && player2Gold >= 40 && azules < 3))
             {
                 // comprar knight --> 40g
+                scriptCreacion.SetCreatableTiles();
+                player2Gold -= 40;
+                float minX = Mathf.Infinity;
+                float minY = Mathf.Infinity;
+                Tile desiredTile = null;
+
+                foreach (Tile tile in scriptCreacion.cratableTilesIA)
+                {
+
+                    if (tile.transform.position.x < minX)
+                    {
+                        minX = tile.transform.position.x;
+                        minY = tile.transform.position.y;
+                        desiredTile = tile;
+                    }
+                    else if (tile.transform.position.y < minY)
+                    {
+                        minX = tile.transform.position.x;
+                        minY = tile.transform.position.y;
+                        desiredTile = tile;
+                    }
+
+                }
+                Instantiate(EnemyIAKnight, new Vector3(desiredTile.transform.position.x, desiredTile.transform.position.y, 0), Quaternion.identity);
+                ResetTiles();
+                createdVillage = null;
+
+                yield return new WaitForSecondsRealtime(1);
             }
 
         }
@@ -232,14 +325,98 @@ public class GM : MonoBehaviour
                 else if (dice <= 0.8 && player2Gold >= 80)
                 {
                     //comprar bat
+                    scriptCreacion.SetCreatableTiles();
+                    player2Gold -= 80;
+                    float minX = Mathf.Infinity;
+                    float minY = Mathf.Infinity;
+                    Tile desiredTile = null;
+
+                    foreach (Tile tile in scriptCreacion.cratableTilesIA)
+                    {
+
+                        if (tile.transform.position.x < minX)
+                        {
+                            minX = tile.transform.position.x;
+                            minY = tile.transform.position.y;
+                            desiredTile = tile;
+                        }
+                        else if (tile.transform.position.y < minY)
+                        {
+                            minX = tile.transform.position.x;
+                            minY = tile.transform.position.y;
+                            desiredTile = tile;
+                        }
+
+                    }
+                    Instantiate(EnemyIABat, new Vector3(desiredTile.transform.position.x, desiredTile.transform.position.y, 0), Quaternion.identity);
+                    ResetTiles();
+                    createdVillage = null;
+
+                    yield return new WaitForSecondsRealtime(1);
                 }
                 else if (dice <= 0.9 && player2Gold >= 70)
                 {
                     //comprar archer
+                    scriptCreacion.SetCreatableTiles();
+                    player2Gold -= 70;
+                    float minX = Mathf.Infinity;
+                    float minY = Mathf.Infinity;
+                    Tile desiredTile = null;
+
+                    foreach (Tile tile in scriptCreacion.cratableTilesIA)
+                    {
+
+                        if (tile.transform.position.x < minX)
+                        {
+                            minX = tile.transform.position.x;
+                            minY = tile.transform.position.y;
+                            desiredTile = tile;
+                        }
+                        else if (tile.transform.position.y < minY)
+                        {
+                            minX = tile.transform.position.x;
+                            minY = tile.transform.position.y;
+                            desiredTile = tile;
+                        }
+
+                    }
+                    Instantiate(EnemyIAArcher, new Vector3(desiredTile.transform.position.x, desiredTile.transform.position.y, 0), Quaternion.identity);
+                    ResetTiles();
+                    createdVillage = null;
+
+                    yield return new WaitForSecondsRealtime(1);
                 }
                 else if (dice <= 1 && player2Gold >= 40)
                 {
                     //comprar knight
+                    scriptCreacion.SetCreatableTiles();
+                    player2Gold -= 40;
+                    float minX = Mathf.Infinity;
+                    float minY = Mathf.Infinity;
+                    Tile desiredTile = null;
+
+                    foreach (Tile tile in scriptCreacion.cratableTilesIA)
+                    {
+
+                        if (tile.transform.position.x < minX)
+                        {
+                            minX = tile.transform.position.x;
+                            minY = tile.transform.position.y;
+                            desiredTile = tile;
+                        }
+                        else if (tile.transform.position.y < minY)
+                        {
+                            minX = tile.transform.position.x;
+                            minY = tile.transform.position.y;
+                            desiredTile = tile;
+                        }
+
+                    }
+                    Instantiate(EnemyIAKnight, new Vector3(desiredTile.transform.position.x, desiredTile.transform.position.y, 0), Quaternion.identity);
+                    ResetTiles();
+                    createdVillage = null;
+
+                    yield return new WaitForSecondsRealtime(1);
                 }
             }
             else {
@@ -269,6 +446,9 @@ public class GM : MonoBehaviour
 
     
     IEnumerator ManageEnemies() {
+
+        unidadCreada.transform.SetParent(GameObject.Find("IAUnits").transform);
+        enemies.Add(unidadCreada);
 
         foreach (GameObject enemy in enemies)
         {
