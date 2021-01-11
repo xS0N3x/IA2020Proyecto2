@@ -81,7 +81,7 @@ public class GM : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("b")) {
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("b")) && playerTurn == 1) {
             EndTurn();
         }
 
@@ -157,6 +157,10 @@ public class GM : MonoBehaviour
             }
         }
         else{
+            turnoiniciado = false;
+            movimientosRealizados = false;
+            turnofinalizado = false;
+
             listaVillages = FindObjectsOfType<Village>();
             listaAliados = FindObjectsOfType<ClosestEnemy>();
             lista = FindObjectsOfType<Unit>();
@@ -543,14 +547,98 @@ public class GM : MonoBehaviour
                 else if (dice <= 0.55)
                 {
                     //comprar bat
+                    scriptCreacion.SetCreatableTiles();
+                    player2Gold -= 80;
+                    float minX = Mathf.Infinity;
+                    float minY = Mathf.Infinity;
+                    Tile desiredTile = null;
+
+                    foreach (Tile tile in scriptCreacion.cratableTilesIA)
+                    {
+
+                        if (tile.transform.position.x < minX)
+                        {
+                            minX = tile.transform.position.x;
+                            minY = tile.transform.position.y;
+                            desiredTile = tile;
+                        }
+                        else if (tile.transform.position.y < minY)
+                        {
+                            minX = tile.transform.position.x;
+                            minY = tile.transform.position.y;
+                            desiredTile = tile;
+                        }
+
+                    }
+                    Instantiate(EnemyIABat, new Vector3(desiredTile.transform.position.x, desiredTile.transform.position.y, 0), Quaternion.identity);
+                    ResetTiles();
+                    createdVillage = null;
+
+                    yield return new WaitForSecondsRealtime(1);
                 }
                 else if (dice <= 0.85)
                 {
                     //comprar archer
+                    scriptCreacion.SetCreatableTiles();
+                    player2Gold -= 70;
+                    float minX = Mathf.Infinity;
+                    float minY = Mathf.Infinity;
+                    Tile desiredTile = null;
+
+                    foreach (Tile tile in scriptCreacion.cratableTilesIA)
+                    {
+
+                        if (tile.transform.position.x < minX)
+                        {
+                            minX = tile.transform.position.x;
+                            minY = tile.transform.position.y;
+                            desiredTile = tile;
+                        }
+                        else if (tile.transform.position.y < minY)
+                        {
+                            minX = tile.transform.position.x;
+                            minY = tile.transform.position.y;
+                            desiredTile = tile;
+                        }
+
+                    }
+                    Instantiate(EnemyIAArcher, new Vector3(desiredTile.transform.position.x, desiredTile.transform.position.y, 0), Quaternion.identity);
+                    ResetTiles();
+                    createdVillage = null;
+
+                    yield return new WaitForSecondsRealtime(1);
                 }
                 else if (dice <= 1)
                 {
                     //comprar knight
+                    scriptCreacion.SetCreatableTiles();
+                    player2Gold -= 40;
+                    float minX = Mathf.Infinity;
+                    float minY = Mathf.Infinity;
+                    Tile desiredTile = null;
+
+                    foreach (Tile tile in scriptCreacion.cratableTilesIA)
+                    {
+
+                        if (tile.transform.position.x < minX)
+                        {
+                            minX = tile.transform.position.x;
+                            minY = tile.transform.position.y;
+                            desiredTile = tile;
+                        }
+                        else if (tile.transform.position.y < minY)
+                        {
+                            minX = tile.transform.position.x;
+                            minY = tile.transform.position.y;
+                            desiredTile = tile;
+                        }
+
+                    }
+                    Instantiate(EnemyIAKnight, new Vector3(desiredTile.transform.position.x, desiredTile.transform.position.y, 0), Quaternion.identity);
+                    ResetTiles();
+                    createdVillage = null;
+
+                    yield return new WaitForSecondsRealtime(1);
                 }
             }
             
@@ -562,18 +650,6 @@ public class GM : MonoBehaviour
 
     
     IEnumerator ManageEnemies() {
-
-        /*if (unidadCreada.tag == "Bat") {
-            unidadCreada.transform.SetParent(GameObject.Find("Bats").transform);
-        } else if (unidadCreada.tag == "Knight") {
-            unidadCreada.transform.SetParent(GameObject.Find("Knights").transform);
-        } else if (unidadCreada.tag == "Archer"){
-            unidadCreada.transform.SetParent(GameObject.Find("Archer").transform);
-        }
-        
-        enemies.Add(unidadCreada);
-
-        unidadCreada = null;*/
 
         foreach (GameObject enemy in enemies)
         {
@@ -965,34 +1041,36 @@ public class GM : MonoBehaviour
 
     IEnumerator AttackVillage(Village enemy, ClosestEnemy script)
     {
+        if (enemy.playerNumber == 1) {
+            int enemyDamege = script.attackDamage;
 
-        int enemyDamege = script.attackDamage;
-
-        if (enemyDamege >= 1)
-        {
-            enemy.health -= enemyDamege;
-            DamageIcon d = Instantiate(script.damageIcon, enemy.transform.position, Quaternion.identity);
-            d.Setup(enemyDamege);
-        }
-
-        if (enemy.health <= 0)
-        {
-
-            if (script.deathEffect != null)
+            if (enemyDamege >= 1)
             {
-                Instantiate(script.deathEffect, enemy.transform.position, Quaternion.identity);
-                camAnim.SetTrigger("shake");
+                enemy.health -= enemyDamege;
+                DamageIcon d = Instantiate(script.damageIcon, enemy.transform.position, Quaternion.identity);
+                d.Setup(enemyDamege);
             }
 
-            script.GetWalkableTiles(); // check for new walkable tiles (if enemy has died we can now walk on his tile)
-            enemy.isDead = true;
-            enemy.gameObject.SetActive(false);
-            //Destroy(enemy.gameObject);
+            if (enemy.health <= 0)
+            {
+
+                if (script.deathEffect != null)
+                {
+                    Instantiate(script.deathEffect, enemy.transform.position, Quaternion.identity);
+                    camAnim.SetTrigger("shake");
+                }
+
+                script.GetWalkableTiles(); // check for new walkable tiles (if enemy has died we can now walk on his tile)
+                enemy.isDead = true;
+                enemy.gameObject.SetActive(false);
+                //Destroy(enemy.gameObject);
+            }
+
+            UpdateInfoStats();
+
+            yield return null;
         }
-
-        UpdateInfoStats();
-
-        yield return null;
+        
     }
 
     IEnumerator StartMovement(GameObject enemy, ClosestEnemy script) {
@@ -1024,7 +1102,10 @@ public class GM : MonoBehaviour
         Village[] villages = FindObjectsOfType<Village>();
         foreach (Village village in villages)
         {
-            village.weaponIcon.SetActive(false);
+            if (village.weaponIcon != null) {
+                village.weaponIcon.SetActive(false);
+            }
+           
         }
     }
 
