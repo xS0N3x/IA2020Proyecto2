@@ -10,7 +10,7 @@ public class GM : MonoBehaviour
 {
     public Unit selectedUnit;
     public ClosestEnemy selectedEnemy;
-
+    public CharacterCreation scriptCreacion;
     public int playerTurn = 1;
 
     public Transform selectedUnitSquare;
@@ -40,6 +40,8 @@ public class GM : MonoBehaviour
     public Unit createdUnit;
     public Village createdVillage;
 
+    public ClosestEnemy createdEnemy;
+
     public GameObject blueVictory;
     public GameObject darkVictory;
 
@@ -50,6 +52,10 @@ public class GM : MonoBehaviour
     public ClosestEnemy script;
     public bool turnofinalizado = false;
     public bool turnoiniciado = false;
+    public bool movimientosRealizados = false;
+
+    public GameObject villageIA;
+    public GameObject EnemyIA;
 
     public ClosestEnemy lowerEnemy;
 
@@ -63,6 +69,7 @@ public class GM : MonoBehaviour
         camAnim = Camera.main.GetComponent<Animator>();
         GetGoldIncome(1);
         UpdateHealthDisplay(script);
+        scriptCreacion = GetComponent<CharacterCreation>();
     }
 
     private void Update()
@@ -94,7 +101,11 @@ public class GM : MonoBehaviour
                 StartCoroutine(ManageEnemies());
                 turnoiniciado = true;
             }
-            
+
+            if (movimientosRealizados && !turnofinalizado) {
+               StartCoroutine(PurchaseEnemies());
+            }
+
             if (turnofinalizado) {
                 EndTurn();
                 turnofinalizado = false;
@@ -108,7 +119,155 @@ public class GM : MonoBehaviour
         }
 
     }
+    
+    IEnumerator PurchaseEnemies() {
 
+        int redBats = 0;
+        int redKnights = 0;
+        int redArchers = 0;
+        int redVillages = 0;
+        int blueBats = 0;
+        int blueKnights = 0;
+        int blueArchers = 0;
+        int blueVillages = 0;
+        int azules = 0;
+        int rojos = 0;
+
+        //scriptCreacion.cratableTilesIA;
+
+        foreach (Unit unit in lista) {
+            if (unit.tag == "Bat") {
+                redBats += 1;
+            } else if (unit.tag == "Archer") {
+                redArchers += 1;
+            } else if (unit.tag == "Knigt") {
+                redKnights += 1;
+            }
+        }
+
+        foreach (ClosestEnemy unit in listaAliados)
+        {
+            if (unit.tag == "Bat")
+            {
+                blueBats += 1;
+            }
+            else if (unit.tag == "Archer")
+            {
+                blueArchers += 1;
+            }
+            else if (unit.tag == "Knigt")
+            {
+                blueKnights += 1;
+            }
+        }
+
+        foreach (Village village in listaVillages) {
+            if (village.playerNumber == 1)
+            {
+                redVillages += 1;
+            }
+            else {
+                blueVillages += 1;
+            }
+        }
+
+        azules = blueArchers + blueBats + blueKnights;
+        rojos = redArchers + redBats + redKnights;
+
+        if (azules < rojos)
+        {
+            //Sustituyo lo que me falte
+            if (blueBats < redBats && player2Gold >= 80)
+            {
+                //comprar Bat --> 80g
+            }
+            else if ((blueArchers < redArchers && player2Gold >= 90) || (blueArchers < redKnights && player2Gold >= 70 && azules < 3))
+            {
+                //comprar archer --> 70g
+            }
+            else if ((blueKnights < redKnights && player2Gold >= 80) || (blueKnights < redKnights && player2Gold >= 40 && azules < 3))
+            {
+                // comprar knight --> 40g
+            }
+
+        }
+        else if (blueVillages - redVillages < 2 && player2Gold >= 100)
+        {
+            //Comprar villa --> villages +1 --> 100g
+            scriptCreacion.SetCreatableTiles();
+            player2Gold -= 100;
+            float maxX = -Mathf.Infinity;
+            float maxY = -Mathf.Infinity;
+            Tile desiredTile = null;
+
+            foreach (Tile tile in scriptCreacion.cratableTilesIA) {
+
+                if (tile.transform.position.x > maxX) {
+                    maxX = tile.transform.position.x;
+                    maxY = tile.transform.position.y;
+                    desiredTile = tile;
+                } else if (tile.transform.position.y > maxY) {
+                    maxX = tile.transform.position.x;
+                    maxY = tile.transform.position.y;
+                    desiredTile = tile;
+                }
+
+            }
+            createdVillage = villageIA.GetComponent<Village>();
+            Instantiate(createdVillage, new Vector3(desiredTile.transform.position.x, desiredTile.transform.position.y, 0), Quaternion.identity);
+            ResetTiles();
+            createdVillage = null;
+
+            yield return new WaitForSecondsRealtime(1);
+        }
+        else {
+            //Compro esclavos chetaos
+            float dice = Random.Range(0,1);
+
+            if (player2Gold < 100) {
+                if (dice <= 0.7)
+                {
+                    //ahorrar
+                }
+                else if (dice <= 0.8 && player2Gold >= 80)
+                {
+                    //comprar bat
+                }
+                else if (dice <= 0.9 && player2Gold >= 70)
+                {
+                    //comprar archer
+                }
+                else if (dice <= 1 && player2Gold >= 40)
+                {
+                    //comprar knight
+                }
+            }
+            else {
+                if (dice <= 0.3)
+                {
+
+                }
+                else if (dice <= 0.55)
+                {
+                    //comprar bat
+                }
+                else if (dice <= 0.85)
+                {
+                    //comprar archer
+                }
+                else if (dice <= 1)
+                {
+                    //comprar knight
+                }
+            }
+            
+        }
+
+        turnofinalizado = true;
+
+    }
+
+    
     IEnumerator ManageEnemies() {
 
         foreach (GameObject enemy in enemies)
@@ -147,31 +306,53 @@ public class GM : MonoBehaviour
                                 }
                             }
 
-                            if (allyVillages > 0)
+                            if (script.closestAlly == null)
                             {
-                                script.FindNearestAllyVillage(listaVillages);
-                                puntoMedio = new Vector3(Mathf.Floor((script.closestAlly.transform.position.x + script.closestAllyVillage.transform.position.x) / 2),
-                                                 Mathf.Floor((script.closestAlly.transform.position.y + script.closestAllyVillage.transform.position.y) / 2),
-                                                 script.transform.position.z);
-                            }
-                            else
-                            {
-
-                                puntoMedio = script.closestAlly.transform.position;
-                            }
-                            script.GetWalkableTiles();
-                            script.FindClosestTile(puntoMedio);
-                            StartCoroutine(StartMovement(enemy, script));
-                            yield return new WaitForSecondsRealtime(1);
-
-                            script.GetEnemies(); //Compruebo si hay enemigos al alcance actualmente
-                            if (script.enemiesInRange.Count > 0)
-                            {
-
-                                Unit lowerEnemy = script.FindLowestEnemy(script.enemiesInRange);
-                                StartCoroutine(Attack(lowerEnemy, script));
+                                script.FindNearestEnemy(lista);
+                                script.GetWalkableTiles();
+                                script.IrseACuenca();
+                                StartCoroutine(StartMovement(enemy, script));
                                 yield return new WaitForSecondsRealtime(1);
+
+                                script.GetEnemies(); //Compruebo si hay enemigos al alcance actualmente
+                                if (script.enemiesInRange.Count > 0)
+                                {
+
+                                    Unit lowerEnemy = script.FindLowestEnemy(script.enemiesInRange);
+                                    StartCoroutine(Attack(lowerEnemy, script));
+                                    yield return new WaitForSecondsRealtime(1);
+                                }
                             }
+                            else {
+
+                                if (allyVillages > 0)
+                                {
+                                    script.FindNearestAllyVillage(listaVillages);
+                                    puntoMedio = new Vector3(Mathf.Floor((script.closestAlly.transform.position.x + script.closestAllyVillage.transform.position.x) / 2),
+                                                     Mathf.Floor((script.closestAlly.transform.position.y + script.closestAllyVillage.transform.position.y) / 2),
+                                                     script.transform.position.z);
+                                }
+                                else
+                                {
+
+                                    puntoMedio = script.closestAlly.transform.position;
+                                }
+                                script.GetWalkableTiles();
+                                script.FindClosestTile(puntoMedio);
+                                StartCoroutine(StartMovement(enemy, script));
+                                yield return new WaitForSecondsRealtime(1);
+
+                                script.GetEnemies(); //Compruebo si hay enemigos al alcance actualmente
+                                if (script.enemiesInRange.Count > 0)
+                                {
+
+                                    Unit lowerEnemy = script.FindLowestEnemy(script.enemiesInRange);
+                                    StartCoroutine(Attack(lowerEnemy, script));
+                                    yield return new WaitForSecondsRealtime(1);
+                                }
+                            }
+
+                            
                         }
                         script.hasMoved = true;
                     }
@@ -375,37 +556,11 @@ public class GM : MonoBehaviour
                     break;
             }
 
-            /*script.GetEnemies(); //Compruebo si hay enemigos al alcance actualmente
-            if (script.enemiesInRange.Count > 0)
-            {
-                Unit lowerEnemy = script.FindLowestEnemy(script.enemiesInRange);
-                StartCoroutine(Attack(lowerEnemy, script));
-                yield return new WaitForSecondsRealtime(1);
-            }
-            else {
-
-                Unit[] lista = FindObjectsOfType<Unit>();
-                script.FindNearestEnemy(lista);
-                script.GetWalkableTiles();
-                script.FindClosestTile();
-                StartCoroutine(StartMovement(enemy, script));
-                
-                yield return new WaitForSecondsRealtime(1);
-
-                script.GetEnemies(); //Compruebo si hay enemigos al alcance actualmente
-                if (script.enemiesInRange.Count > 0)
-                {
-
-                    Unit lowerEnemy = script.FindLowestEnemy(script.enemiesInRange);
-                    StartCoroutine(Attack(lowerEnemy, script));
-                    yield return new WaitForSecondsRealtime(1);
-                }
-            }*/
 
 
         }
 
-        turnofinalizado = true;
+        movimientosRealizados = true;
        
     }
 

@@ -709,6 +709,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minDist: Infinity
+  maxDist: -1
   closestEnemy: {fileID: 0}
   closestAlly: {fileID: 0}
   closestVillage: {fileID: 0}
@@ -716,16 +717,22 @@ MonoBehaviour:
   enemies: []
   tileSpeed: 3
   walkableTiles: []
+  allyTiles: []
   closestTile: {fileID: 0}
   moveSpeed: 10
   enemiesInRange: []
   villagesInRange: []
+  allies: []
   attackRadius: 1
+  gm: {fileID: 0}
+  hasMoved: 0
+  isDead: 0
   isKing: 0
   displayedText: {fileID: 0}
   deathEffect: {fileID: 8882834092664154197, guid: 43e58a09770a414488a4edf9a2bb5ea7,
     type: 3}
   playerNumber: 2
+  cost: 40
   health: 5
   attackDamage: 3
   defenseDamage: 2
@@ -746,6 +753,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minDist: Infinity
+  maxDist: -1
   closestEnemy: {fileID: 0}
   closestAlly: {fileID: 0}
   closestVillage: {fileID: 0}
@@ -753,16 +761,22 @@ MonoBehaviour:
   enemies: []
   tileSpeed: 3
   walkableTiles: []
+  allyTiles: []
   closestTile: {fileID: 0}
   moveSpeed: 10
   enemiesInRange: []
   villagesInRange: []
+  allies: []
   attackRadius: 1
+  gm: {fileID: 0}
+  hasMoved: 0
+  isDead: 0
   isKing: 0
   displayedText: {fileID: 0}
   deathEffect: {fileID: 8882834092664154197, guid: 43e58a09770a414488a4edf9a2bb5ea7,
     type: 3}
   playerNumber: 2
+  cost: 0
   health: 5
   attackDamage: 3
   defenseDamage: 2

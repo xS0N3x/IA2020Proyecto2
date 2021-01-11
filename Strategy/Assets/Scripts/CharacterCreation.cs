@@ -17,6 +17,7 @@ public class CharacterCreation : MonoBehaviour
     public GameObject player1Menu;
     public GameObject player2Menu;
 
+    public List<Tile> cratableTilesIA = new List<Tile>();
 
     private void Start()
     {
@@ -68,6 +69,32 @@ public class CharacterCreation : MonoBehaviour
         SetCreatableTiles();
     }
 
+    public void BuyEnemy(ClosestEnemy unit)
+    {
+
+        if (unit.playerNumber == 1 && unit.cost <= gm.player1Gold)
+        {
+            player1Menu.SetActive(false);
+            gm.player1Gold -= unit.cost;
+        }
+        else if (unit.playerNumber == 2 && unit.cost <= gm.player2Gold)
+        {
+            player2Menu.SetActive(false);
+            gm.player2Gold -= unit.cost;
+        }
+        else
+        {
+            print("NOT ENOUGH GOLD, SORRY!");
+            return;
+        }
+
+        gm.UpdateGoldText();
+        gm.createdEnemy = unit;
+
+        //DeselectUnit();
+        SetCreatableTiles();
+    }
+
     public void BuyVillage(Village village) {
         if (village.playerNumber == 1 && village.cost <= gm.player1Gold)
         {
@@ -106,7 +133,7 @@ public class CharacterCreation : MonoBehaviour
         }
     }*/
 
-    void SetCreatableTiles()
+    public void SetCreatableTiles()
     {
         gm.ResetTiles();
 
@@ -117,7 +144,7 @@ public class CharacterCreation : MonoBehaviour
         }
         else
         {
-            checkAvalableTiles(king2);
+            checkAvalableTilesIA(king2);
         }
     }
 
@@ -126,11 +153,28 @@ public class CharacterCreation : MonoBehaviour
         Tile[] tiles = FindObjectsOfType<Tile>();
         foreach (Tile tile in tiles)
         {
-            if (Mathf.Abs(king.transform.position.x - tile.transform.position.x) + Mathf.Abs(transform.position.y - tile.transform.position.y) <= 5)
+            if (Mathf.Abs(king.transform.position.x - tile.transform.position.x) + Mathf.Abs(king.transform.position.y - tile.transform.position.y) <= 3)
             {
                 if (tile.isClear())
                 {
                     tile.SetCreatable();
+                }
+            }
+        }
+    }
+
+    public void checkAvalableTilesIA(GameObject king)
+    {
+        
+
+        Tile[] tiles = FindObjectsOfType<Tile>();
+        foreach (Tile tile in tiles)
+        {
+            if (Mathf.Abs(king.transform.position.x - tile.transform.position.x) + Mathf.Abs(king.transform.position.y - tile.transform.position.y) <= 3)
+            {
+                if (tile.isClear())
+                {
+                    cratableTilesIA.Add(tile);
                 }
             }
         }

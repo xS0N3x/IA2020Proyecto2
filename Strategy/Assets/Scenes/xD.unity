@@ -21317,6 +21317,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8882834092664154197, guid: 43e58a09770a414488a4edf9a2bb5ea7,
         type: 3}
+    - target: {fileID: 3293640991218369720, guid: e29861ac58e55d04ca67678a523a8c67,
+        type: 3}
+      propertyPath: attackDamage
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3293640991218369722, guid: e29861ac58e55d04ca67678a523a8c67,
         type: 3}
       propertyPath: m_RootOrder
@@ -23083,6 +23088,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Dark Bat
+      objectReference: {fileID: 0}
+    - target: {fileID: 1642533359335901398, guid: 88b3f3ba5316f7e45aac1f15d6b71e81,
+        type: 3}
+      propertyPath: tileSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1642533359335901398, guid: 88b3f3ba5316f7e45aac1f15d6b71e81,
+        type: 3}
+      propertyPath: attackDamage
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88b3f3ba5316f7e45aac1f15d6b71e81, type: 3}
@@ -50342,6 +50357,10 @@ PrefabInstance:
       propertyPath: tileSpeed
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 794876514, guid: f39be49cad0c02340820d187847171e4, type: 3}
+      propertyPath: attackDamage
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4446637798450979530, guid: f39be49cad0c02340820d187847171e4,
         type: 3}
       propertyPath: m_Name
@@ -57398,10 +57417,6 @@ PrefabInstance:
       propertyPath: gm
       value: 
       objectReference: {fileID: 1570414220}
-    - target: {fileID: 1885440433, guid: dfd3953b532394b459bb5b605feb9936, type: 3}
-      propertyPath: attackRadius
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 626269173632994742, guid: dfd3953b532394b459bb5b605feb9936,
         type: 3}
       propertyPath: m_RootOrder
@@ -64340,6 +64355,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedUnit: {fileID: 0}
   selectedEnemy: {fileID: 0}
+  scriptCreacion: {fileID: 0}
   playerTurn: 1
   selectedUnitSquare: {fileID: 1941641901}
   playerIcon: {fileID: 1193931158}
@@ -64359,6 +64375,7 @@ MonoBehaviour:
   player2GoldText: {fileID: 1063579114}
   createdUnit: {fileID: 0}
   createdVillage: {fileID: 0}
+  createdEnemy: {fileID: 0}
   blueVictory: {fileID: 243264726}
   darkVictory: {fileID: 1969939416}
   aux: []
@@ -64366,6 +64383,10 @@ MonoBehaviour:
   script: {fileID: 1409312430}
   turnofinalizado: 0
   turnoiniciado: 0
+  movimientosRealizados: 0
+  villageIA: {fileID: 4688297137751264698, guid: 76ee34c1b9be29f4ebb1071fbfe8504a,
+    type: 3}
+  EnemyIA: {fileID: 0}
   lowerEnemy: {fileID: 0}
 --- !u!4 &1570414221
 Transform:
@@ -64399,6 +64420,7 @@ MonoBehaviour:
   player2openButton: {fileID: 1073180964}
   player1Menu: {fileID: 1920723666}
   player2Menu: {fileID: 158675921}
+  cratableTilesIA: []
 --- !u!82 &1570414223
 AudioSource:
   m_ObjectHideFlags: 0
@@ -78189,6 +78211,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8882834092664154197, guid: 43e58a09770a414488a4edf9a2bb5ea7,
         type: 3}
+    - target: {fileID: 794876514, guid: f39be49cad0c02340820d187847171e4, type: 3}
+      propertyPath: attackDamage
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4446637798450979530, guid: f39be49cad0c02340820d187847171e4,
         type: 3}
       propertyPath: m_Name

@@ -178,7 +178,7 @@ public class Unit : MonoBehaviour
         {
             enemy.health -= enemyDamege;
             enemy.UpdateHealthDisplay();
-            DamageIcon d = Instantiate(damageIcon, enemy.transform.position, Quaternion.identity);
+            DamageIcon d = Instantiate(damageIcon, enemy.transform.position, Quaternion.identity);  
             d.Setup(enemyDamege);
         }
 
@@ -199,7 +199,7 @@ public class Unit : MonoBehaviour
             {
                 health -= unitDamage;
                 UpdateHealthDisplay();
-                DamageIcon d = Instantiate(damageIcon, transform.position, Quaternion.identity);
+                DamageIcon d = Instantiate(damageIcon, transform.position, Quaternion.identity); 
                 d.Setup(unitDamage);
             }
         }
@@ -208,8 +208,8 @@ public class Unit : MonoBehaviour
         {
          
             if (deathEffect != null){
-				Instantiate(deathEffect, enemy.transform.position, Quaternion.identity);
-				camAnim.SetTrigger("shake");
+				Instantiate(deathEffect, transform.position, Quaternion.identity); /*HEMOS CAMBIADO ESTA VAINA A VER*/
+                camAnim.SetTrigger("shake");
 			}
 
             if (enemy.isKing)

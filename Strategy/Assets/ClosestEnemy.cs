@@ -30,6 +30,7 @@ public class ClosestEnemy : MonoBehaviour
     public Text displayedText;
     public GameObject deathEffect;
     public int playerNumber;
+    public int cost;
 
     // Attack Stats
     public int health;
@@ -72,6 +73,8 @@ public class ClosestEnemy : MonoBehaviour
 
     public void FindNearestAlly(ClosestEnemy[] lista)
     {
+
+        closestAlly = null;
 
         foreach (ClosestEnemy ally in lista)
         {
@@ -186,6 +189,23 @@ public class ClosestEnemy : MonoBehaviour
 
             }
             
+        }
+    }
+
+    public void IrseACuenca() {
+        maxDist = -1;
+        FindNearestEnemy(enemies);
+        foreach (Tile tile in walkableTiles)
+        {
+            if (!closestEnemy.isDead)
+            {
+                if (Mathf.Abs(closestEnemy.transform.position.x - tile.transform.position.x) + Mathf.Abs(closestEnemy.transform.position.y - tile.transform.position.y) > maxDist)
+                {
+                    maxDist = Mathf.Abs(closestEnemy.transform.position.x - tile.transform.position.x) + Mathf.Abs(closestEnemy.transform.position.y - tile.transform.position.y);
+                    closestTile = tile;
+                }
+            }
+
         }
     }
 
