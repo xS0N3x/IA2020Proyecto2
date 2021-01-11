@@ -159,7 +159,23 @@ public class Unit : MonoBehaviour
 
             }
         }
-        
+
+        Village[] villages = FindObjectsOfType<Village>();
+        foreach (Village village in villages)
+        {
+            if (Mathf.Abs(transform.position.x - village.transform.position.x) + Mathf.Abs(transform.position.y - village.transform.position.y) <= attackRadius) // check is the enemy is near enough to attack
+            {
+                if (village.playerNumber != gm.playerTurn && !hasAttacked)
+                { // make sure you don't attack your allies
+
+                    village.weaponIcon.SetActive(true);
+                }
+
+            }
+        }
+
+
+
     }
 
     public void Move(Transform movePos)
@@ -247,6 +263,37 @@ public class Unit : MonoBehaviour
 
         gm.UpdateInfoStats();
   
+
+    }
+
+    public void AttackVillage(Village villag)
+    {
+        hasAttacked = true;
+
+        int enemyDamege = attackDamage;
+        
+
+        if (enemyDamege >= 1)
+        {
+            villag.health -= enemyDamege;
+            DamageIcon d = Instantiate(damageIcon, villag.transform.position, Quaternion.identity);
+            d.Setup(enemyDamege);
+        }
+
+        if (villag.health <= 0)
+        {
+
+            if (deathEffect != null)
+            {
+                Instantiate(deathEffect, transform.position, Quaternion.identity); /*HEMOS CAMBIADO ESTA VAINA A VER*/
+                camAnim.SetTrigger("shake");
+            }
+
+            GetWalkableTiles(); // check for new walkable tiles (if enemy has died we can now walk on his tile)
+            villag.isDead = true;
+            villag.gameObject.SetActive(false);
+            //Destroy(enemy.gameObject);
+        }
 
     }
 

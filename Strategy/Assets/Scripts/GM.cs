@@ -41,6 +41,7 @@ public class GM : MonoBehaviour
     public Village createdVillage;
 
     public ClosestEnemy createdEnemy;
+    public Village selectedVillage;
 
     public GameObject blueVictory;
     public GameObject darkVictory;
@@ -108,7 +109,38 @@ public class GM : MonoBehaviour
                 }
             }
 
+            foreach (Village villa in listaVillages)
+            {
+                if (villa.gm == null && villa.playerNumber == 2)
+                {
+                    villa.gm = gameObject.GetComponent<GM>();
+                    unidadCreada = villa.gameObject;
+                }
+            }
+
             if (!turnoiniciado) {
+
+                if (unidadCreada != null) {
+
+                    if (unidadCreada.tag == "Bat")
+                    {
+                        unidadCreada.transform.SetParent(GameObject.Find("Bats").transform);
+                    }
+                    else if (unidadCreada.tag == "Knight")
+                    {
+                        unidadCreada.transform.SetParent(GameObject.Find("Knights").transform);
+                    }
+                    else if (unidadCreada.tag == "Archer")
+                    {
+                        unidadCreada.transform.SetParent(GameObject.Find("Archers").transform);
+                    }
+
+                    enemies.Add(unidadCreada);
+
+                    unidadCreada = null;
+
+                }
+
                 StartCoroutine(ManageEnemies());
                 turnoiniciado = true;
             }
@@ -447,8 +479,17 @@ public class GM : MonoBehaviour
     
     IEnumerator ManageEnemies() {
 
-        unidadCreada.transform.SetParent(GameObject.Find("IAUnits").transform);
+        /*if (unidadCreada.tag == "Bat") {
+            unidadCreada.transform.SetParent(GameObject.Find("Bats").transform);
+        } else if (unidadCreada.tag == "Knight") {
+            unidadCreada.transform.SetParent(GameObject.Find("Knights").transform);
+        } else if (unidadCreada.tag == "Archer"){
+            unidadCreada.transform.SetParent(GameObject.Find("Archer").transform);
+        }
+        
         enemies.Add(unidadCreada);
+
+        unidadCreada = null;*/
 
         foreach (GameObject enemy in enemies)
         {
@@ -894,6 +935,12 @@ public class GM : MonoBehaviour
         foreach (ClosestEnemy enemy in enemies)
         {
             enemy.weaponIcon.SetActive(false);
+        }
+
+        Village[] villages = FindObjectsOfType<Village>();
+        foreach (Village village in villages)
+        {
+            village.weaponIcon.SetActive(false);
         }
     }
 

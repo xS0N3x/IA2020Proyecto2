@@ -434,6 +434,7 @@ public class ClosestEnemy : MonoBehaviour
                     gm.selectedUnit.Attack(unit);
                     gm.ResetWeaponIcon();
                 }
+
             }
         }
     }
