@@ -76,6 +76,7 @@ public class GM : MonoBehaviour
         GetGoldIncome(1);
         UpdateHealthDisplay(script);
         scriptCreacion = GetComponent<CharacterCreation>();
+        StartMatch();
     }
 
     private void Update()
@@ -162,7 +163,90 @@ public class GM : MonoBehaviour
         }
 
     }
-    
+
+
+    public void StartMatch() {
+        List<Tile> blueZone = new List<Tile>();
+        List<Tile> darkZone = new List<Tile>();
+
+        Tile[] tiles = FindObjectsOfType<Tile>();
+
+        foreach (Tile tile in tiles) {
+            if (!tile.isClear())
+            {
+                tile.transform.SetParent(GameObject.Find("Ozone").transform);
+            }
+            else {
+                if (tile.transform.parent.name == "BlueZone") {
+                    blueZone.Add(tile);
+                } else if (tile.transform.parent.name == "DarkZone") {
+                    darkZone.Add(tile);
+                }
+            }
+        }
+
+        GameObject units = GameObject.Find("Units");
+        for (int i = 0; i < units.transform.childCount; i++) {
+            int dice = Random.Range(0, darkZone.Count);
+
+            units.transform.GetChild(i).transform.position = darkZone.ToArray()[dice].transform.position;
+            darkZone.RemoveAt(dice);
+        }
+
+        GameObject iaBats = GameObject.Find("Bats");
+        for (int i = 0; i < iaBats.transform.childCount; i++)
+        {
+
+            int dice = Random.Range(0, blueZone.Count);
+
+            iaBats.transform.GetChild(i).transform.position = blueZone.ToArray()[dice].transform.position;
+            blueZone.RemoveAt(dice);
+            
+        }
+
+        GameObject iaArchers = GameObject.Find("Archers");
+        for (int i = 0; i < iaArchers.transform.childCount; i++)
+        {
+
+            int dice = Random.Range(0, blueZone.Count);
+
+            iaArchers.transform.GetChild(i).transform.position = blueZone.ToArray()[dice].transform.position;
+            blueZone.RemoveAt(dice);
+
+        }
+
+        GameObject iaKnights = GameObject.Find("Knights");
+        for (int i = 0; i < iaKnights.transform.childCount; i++)
+        {
+
+            int dice = Random.Range(0, blueZone.Count);
+
+            iaKnights.transform.GetChild(i).transform.position = blueZone.ToArray()[dice].transform.position;
+            blueZone.RemoveAt(dice);
+
+        }
+
+        GameObject lasCasicas = GameObject.Find("Villages");
+        for (int i = 0; i < lasCasicas.transform.childCount; i++)
+        {
+            if (lasCasicas.transform.GetChild(i).GetComponent<Village>().playerNumber == 1)
+            {
+                int dice = Random.Range(0, darkZone.Count);
+
+                lasCasicas.transform.GetChild(i).transform.position = darkZone.ToArray()[dice].transform.position;
+                darkZone.RemoveAt(dice);
+            }
+            else {
+                int dice = Random.Range(0, blueZone.Count);
+
+                lasCasicas.transform.GetChild(i).transform.position = blueZone.ToArray()[dice].transform.position;
+                blueZone.RemoveAt(dice);
+            }
+
+        }
+
+    }
+
     IEnumerator PurchaseEnemies() {
 
         int redBats = 0;
