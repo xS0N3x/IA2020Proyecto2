@@ -24,6 +24,7 @@ public class ClosestEnemy : MonoBehaviour
     public int attackRadius;
     public GM gm;
     public bool hasMoved = false;
+    public bool isDead = false;
 
     public bool isKing;
     public Text displayedText;
@@ -54,11 +55,16 @@ public class ClosestEnemy : MonoBehaviour
     public void FindNearestEnemy(Unit[] lista) {
         foreach (Unit enemy in lista)
         {
-            if (Mathf.Abs(transform.position.x - enemy.transform.position.x) + Mathf.Abs(transform.position.y - enemy.transform.position.y) <= minDist)
-            {
-                minDist = Mathf.Abs(transform.position.x - enemy.transform.position.x) + Mathf.Abs(transform.position.y - enemy.transform.position.y);
-                closestEnemy = enemy;
+            if (!enemy.isDead) {
+
+                if (Mathf.Abs(transform.position.x - enemy.transform.position.x) + Mathf.Abs(transform.position.y - enemy.transform.position.y) <= minDist)
+                {
+                    minDist = Mathf.Abs(transform.position.x - enemy.transform.position.x) + Mathf.Abs(transform.position.y - enemy.transform.position.y);
+                    closestEnemy = enemy;
+                }
+
             }
+            
         }
 
         minDist = Mathf.Infinity;
@@ -69,7 +75,7 @@ public class ClosestEnemy : MonoBehaviour
 
         foreach (ClosestEnemy ally in lista)
         {
-            if (ally.tag != gameObject.tag) {
+            if (ally.tag != gameObject.tag && !ally.isDead) {
 
                 if (Mathf.Abs(transform.position.x - ally.transform.position.x) + Mathf.Abs(transform.position.y - ally.transform.position.y) <= minDist)
                 {
@@ -86,10 +92,11 @@ public class ClosestEnemy : MonoBehaviour
 
     public void FindNearestAllyWithTag(ClosestEnemy[] lista, string tag)
     {
+        closestAlly = null;
 
         foreach (ClosestEnemy ally in lista)
         {
-            if (ally.tag != gameObject.tag && ally.tag == tag)
+            if (ally.tag != gameObject.tag && ally.tag == tag && !isDead)
             {
 
                 if (Mathf.Abs(transform.position.x - ally.transform.position.x) + Mathf.Abs(transform.position.y - ally.transform.position.y) <= minDist)
@@ -110,7 +117,7 @@ public class ClosestEnemy : MonoBehaviour
 
         foreach (Village village in lista)
         {
-            if (village.playerNumber == 1) {
+            if (village.playerNumber == 1 && !village.isDead) {
                 if (Mathf.Abs(transform.position.x - village.transform.position.x) + Mathf.Abs(transform.position.y - village.transform.position.y) <= minDist)
                 {
                     minDist = Mathf.Abs(transform.position.x - village.transform.position.x) + Mathf.Abs(transform.position.y - village.transform.position.y);
@@ -128,7 +135,7 @@ public class ClosestEnemy : MonoBehaviour
 
         foreach (Village village in lista)
         {
-            if (village.playerNumber == 2)
+            if (village.playerNumber == 2 && !village.isDead)
             {
                 if (Mathf.Abs(transform.position.x - village.transform.position.x) + Mathf.Abs(transform.position.y - village.transform.position.y) <= minDist)
                 {
@@ -167,13 +174,18 @@ public class ClosestEnemy : MonoBehaviour
         allyTiles.Clear();
         foreach (Tile tile in tiles)
         {
-            if (Mathf.Abs(ally.transform.position.x - tile.transform.position.x) + Mathf.Abs(ally.transform.position.y - tile.transform.position.y) <= tileSpeed)
-            { // how far he can move
-                if (tile.isClear() == true)
-                { // is the tile clear from any obstacles
-                    allyTiles.Add(tile); //Acuerdate de vaciarla
+            if (!ally.isDead) {
+
+                if (Mathf.Abs(ally.transform.position.x - tile.transform.position.x) + Mathf.Abs(ally.transform.position.y - tile.transform.position.y) <= tileSpeed)
+                { // how far he can move
+                    if (tile.isClear() == true)
+                    { // is the tile clear from any obstacles
+                        allyTiles.Add(tile); //Acuerdate de vaciarla
+                    }
                 }
+
             }
+            
         }
     }
 
@@ -197,11 +209,14 @@ public class ClosestEnemy : MonoBehaviour
         {
             foreach (Tile tile in commonTiles)
             {
-                if (Mathf.Abs(closestEnemy.transform.position.x - tile.transform.position.x) + Mathf.Abs(closestEnemy.transform.position.y - tile.transform.position.y) > maxDist)
-                {
-                    maxDist = Mathf.Abs(closestEnemy.transform.position.x - tile.transform.position.x) + Mathf.Abs(closestEnemy.transform.position.y - tile.transform.position.y);
-                    closestTile = tile;
+                if (!closestEnemy.isDead) {
+                    if (Mathf.Abs(closestEnemy.transform.position.x - tile.transform.position.x) + Mathf.Abs(closestEnemy.transform.position.y - tile.transform.position.y) > maxDist)
+                    {
+                        maxDist = Mathf.Abs(closestEnemy.transform.position.x - tile.transform.position.x) + Mathf.Abs(closestEnemy.transform.position.y - tile.transform.position.y);
+                        closestTile = tile;
+                    }
                 }
+                
             }
         }
     }
@@ -226,11 +241,15 @@ public class ClosestEnemy : MonoBehaviour
         {
             foreach (Tile tile in commonTiles)
             {
-                if (Mathf.Abs(closestEnemy.transform.position.x - tile.transform.position.x) + Mathf.Abs(closestEnemy.transform.position.y - tile.transform.position.y) < minDist)
-                {
-                    minDist = Mathf.Abs(closestEnemy.transform.position.x - tile.transform.position.x) + Mathf.Abs(closestEnemy.transform.position.y - tile.transform.position.y);
-                    closestTile = tile;
+                if (!closestEnemy.isDead) {
+
+                    if (Mathf.Abs(closestEnemy.transform.position.x - tile.transform.position.x) + Mathf.Abs(closestEnemy.transform.position.y - tile.transform.position.y) < minDist)
+                    {
+                        minDist = Mathf.Abs(closestEnemy.transform.position.x - tile.transform.position.x) + Mathf.Abs(closestEnemy.transform.position.y - tile.transform.position.y);
+                        closestTile = tile;
+                    }
                 }
+                
             }
         }
     }
@@ -240,10 +259,15 @@ public class ClosestEnemy : MonoBehaviour
         minDist = Mathf.Infinity;
 
         foreach (Tile tile in walkableTiles) {
-            if (Mathf.Abs(closestEnemy.transform.position.x - tile.transform.position.x) + Mathf.Abs(closestEnemy.transform.position.y - tile.transform.position.y) < minDist) {
-                minDist = Mathf.Abs(closestEnemy.transform.position.x - tile.transform.position.x) + Mathf.Abs(closestEnemy.transform.position.y - tile.transform.position.y);
-                closestTile = tile;
+            if (!closestEnemy.isDead) {
+
+                if (Mathf.Abs(closestEnemy.transform.position.x - tile.transform.position.x) + Mathf.Abs(closestEnemy.transform.position.y - tile.transform.position.y) < minDist)
+                {
+                    minDist = Mathf.Abs(closestEnemy.transform.position.x - tile.transform.position.x) + Mathf.Abs(closestEnemy.transform.position.y - tile.transform.position.y);
+                    closestTile = tile;
+                }
             }
+            
         }
 
         minDist = Mathf.Infinity;
@@ -276,13 +300,16 @@ public class ClosestEnemy : MonoBehaviour
         Unit[] enemies = FindObjectsOfType<Unit>();
         foreach (Unit enemy in enemies)
         {
-            if (Mathf.Abs(transform.position.x - enemy.transform.position.x) + Mathf.Abs(transform.position.y - enemy.transform.position.y) <= attackRadius) // check is the enemy is near enough to attack
-            {
+            if (!enemy.isDead) {
+                if (Mathf.Abs(transform.position.x - enemy.transform.position.x) + Mathf.Abs(transform.position.y - enemy.transform.position.y) <= attackRadius) // check is the enemy is near enough to attack
+                {
 
-             enemiesInRange.Add(enemy);
-             enemy.weaponIcon.SetActive(true);
+                    enemiesInRange.Add(enemy);
+                    enemy.weaponIcon.SetActive(true);
 
+                }
             }
+            
         }
     }
 
@@ -296,13 +323,16 @@ public class ClosestEnemy : MonoBehaviour
         Village[]villages = FindObjectsOfType<Village>();
         foreach (Village village in villages)
         {
-            if (Mathf.Abs(transform.position.x - village.transform.position.x) + Mathf.Abs(transform.position.y - village.transform.position.y) <= attackRadius) // check is the enemy is near enough to attack
-            {
+            if (!village.isDead) {
+                if (Mathf.Abs(transform.position.x - village.transform.position.x) + Mathf.Abs(transform.position.y - village.transform.position.y) <= attackRadius) // check is the enemy is near enough to attack
+                {
 
-                villagesInRange.Add(village);
-                village.weaponIcon.SetActive(true);
+                    villagesInRange.Add(village);
+                    village.weaponIcon.SetActive(true);
 
+                }
             }
+            
         }
 
     }
@@ -314,11 +344,14 @@ public class ClosestEnemy : MonoBehaviour
 
         foreach (Unit enemy in lista)
         {
-            if (enemy.health <= minHealth)
-            {
-                minHealth = enemy.health;
-                lowerEnemy = enemy;
+            if (!enemy.isDead) {
+                if (enemy.health <= minHealth)
+                {
+                    minHealth = enemy.health;
+                    lowerEnemy = enemy;
+                }
             }
+            
         }
 
         return lowerEnemy;
@@ -331,11 +364,15 @@ public class ClosestEnemy : MonoBehaviour
 
         foreach (Village village in lista)
         {
-            if (village.health <= minHealth)
-            {
-                minHealth = village.health;
-                lowerVillage = village;
+            if (!village.isDead) {
+
+                if (village.health <= minHealth)
+                {
+                    minHealth = village.health;
+                    lowerVillage = village;
+                }
             }
+            
         }
 
         return lowerVillage;

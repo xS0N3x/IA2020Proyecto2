@@ -53,6 +53,10 @@ public class GM : MonoBehaviour
 
     public ClosestEnemy lowerEnemy;
 
+    Village[] listaVillages;
+    ClosestEnemy[] listaAliados;
+    Unit[] lista;
+
     private void Start()
     {
 		source = GetComponent<AudioSource>();
@@ -81,6 +85,11 @@ public class GM : MonoBehaviour
         /*Cambios*/
         if (playerTurn == 2) {
 
+            listaVillages = FindObjectsOfType<Village>();
+            listaAliados = FindObjectsOfType<ClosestEnemy>();
+            lista = FindObjectsOfType<Unit>();
+
+
             if (!turnoiniciado) {
                 StartCoroutine(ManageEnemies());
                 turnoiniciado = true;
@@ -91,6 +100,11 @@ public class GM : MonoBehaviour
                 turnofinalizado = false;
                 turnoiniciado = false;
             }
+        }
+        else{
+            listaVillages = FindObjectsOfType<Village>();
+            listaAliados = FindObjectsOfType<ClosestEnemy>();
+            lista = FindObjectsOfType<Unit>();
         }
 
     }
@@ -103,9 +117,9 @@ public class GM : MonoBehaviour
 
             string tag = script.tag;
 
-            Village[] listaVillages = FindObjectsOfType<Village>();
-            ClosestEnemy[] listaAliados = FindObjectsOfType<ClosestEnemy>();
-            Unit[] lista = FindObjectsOfType<Unit>();
+            listaVillages = FindObjectsOfType<Village>();
+            listaAliados = FindObjectsOfType<ClosestEnemy>();
+            lista = FindObjectsOfType<Unit>();
 
             switch (tag) {
                 case "King":
@@ -176,10 +190,9 @@ public class GM : MonoBehaviour
                         }
                         else
                         {
+                            script.FindNearestEnemy(lista);
                             script.GetWalkableTiles();
-                            script.FindNearestAllyWithTag(listaAliados, "Archer");
-                            script.AllyTiles(script.closestAlly);
-                            script.MiddleTile(script.walkableTiles);
+                            script.FindClosestTile();
                             StartCoroutine(StartMovement(enemy, script));
                             yield return new WaitForSecondsRealtime(1);
 
@@ -193,8 +206,6 @@ public class GM : MonoBehaviour
                         }
                         script.hasMoved = true;
                     }
-                    
-
 
 
                     break;
@@ -211,20 +222,59 @@ public class GM : MonoBehaviour
                         }
                         else
                         {
-                            script.GetWalkableTiles();
                             script.FindNearestAllyWithTag(listaAliados, "Bat");
-                            script.AllyTiles(script.closestAlly);
-                            script.FarestTile(script.walkableTiles);
-                            StartCoroutine(StartMovement(enemy, script));
-                            yield return new WaitForSecondsRealtime(1);
+                            if (script.closestAlly != null) {
+                                script.GetWalkableTiles();
+                                script.AllyTiles(script.closestAlly);
+                                script.FarestTile(script.walkableTiles);
+                                StartCoroutine(StartMovement(enemy, script));
+                                yield return new WaitForSecondsRealtime(1);
 
-                            script.GetEnemies();
-                            if (script.enemiesInRange.Count > 0)
+                                script.GetEnemies();
+                                if (script.enemiesInRange.Count > 0)
+                                {
+                                    Unit lowerEnemy = script.FindLowestEnemy(script.enemiesInRange);
+                                    StartCoroutine(Attack(lowerEnemy, script));
+
+                                }
+                            }else
                             {
-                                Unit lowerEnemy = script.FindLowestEnemy(script.enemiesInRange);
-                                StartCoroutine(Attack(lowerEnemy, script));
+                                script.FindNearestAllyWithTag(listaAliados, "Knight");
+                                if (script.closestAlly != null)
+                                {
+                                    script.GetWalkableTiles();
+                                    script.AllyTiles(script.closestAlly);
+                                    script.FarestTile(script.walkableTiles);
+                                    StartCoroutine(StartMovement(enemy, script));
+                                    yield return new WaitForSecondsRealtime(1);
 
+                                    script.GetEnemies();
+                                    if (script.enemiesInRange.Count > 0)
+                                    {
+                                        Unit lowerEnemy = script.FindLowestEnemy(script.enemiesInRange);
+                                        StartCoroutine(Attack(lowerEnemy, script));
+
+                                    }
+                                }
+                                else
+                                {
+                                    script.FindNearestAllyWithTag(listaAliados, "King");
+                                    script.GetWalkableTiles();
+                                    script.AllyTiles(script.closestAlly);
+                                    script.FarestTile(script.walkableTiles);
+                                    StartCoroutine(StartMovement(enemy, script));
+                                    yield return new WaitForSecondsRealtime(1);
+
+                                    script.GetEnemies();
+                                    if (script.enemiesInRange.Count > 0)
+                                    {
+                                        Unit lowerEnemy = script.FindLowestEnemy(script.enemiesInRange);
+                                        StartCoroutine(Attack(lowerEnemy, script));
+
+                                    }
+                                }
                             }
+                           
                         }
                         script.hasMoved = true;
                     }
@@ -421,7 +471,9 @@ public class GM : MonoBehaviour
 
             script.GetWalkableTiles(); // check for new walkable tiles (if enemy has died we can now walk on his tile)
             RemoveInfoPanel(enemy);
-            Destroy(enemy.gameObject);
+            enemy.isDead = true;
+            enemy.gameObject.SetActive(false);
+            // Destroy(enemy.gameObject);
             script.enemies = FindObjectsOfType<Unit>();
         }
 
@@ -441,7 +493,9 @@ public class GM : MonoBehaviour
 
             ResetTiles(); // reset tiles when we die
             RemoveInfoPanel(script);
-            Destroy(script.gameObject);
+            script.isDead = true;
+            script.gameObject.SetActive(false);
+            //Destroy(script.gameObject);
         }
 
         UpdateInfoStats();
@@ -461,30 +515,6 @@ public class GM : MonoBehaviour
             d.Setup(enemyDamege);
         }
 
-        /*if (script.transform.tag == "Archer" && enemy.tag != "Archer")
-        {
-            if (Mathf.Abs(script.transform.position.x - enemy.transform.position.x) + Mathf.Abs(script.transform.position.y - enemy.transform.position.y) <= 1) // check is the enemy is near enough to attack
-            {
-                if (unitDamage >= 1)
-                {
-                    script.health -= unitDamage;
-                    UpdateHealthDisplay(script);
-                    DamageIcon d = Instantiate(script.damageIcon, script.transform.position, Quaternion.identity);
-                    d.Setup(unitDamage);
-                }
-            }
-        }
-        else
-        {
-            if (unitDamage >= 1)
-            {
-                script.health -= unitDamage;
-                UpdateHealthDisplay(script);
-                DamageIcon d = Instantiate(script.damageIcon, script.transform.position, Quaternion.identity);
-                d.Setup(unitDamage);
-            }
-        }*/
-
         if (enemy.health <= 0)
         {
 
@@ -495,7 +525,9 @@ public class GM : MonoBehaviour
             }
 
             script.GetWalkableTiles(); // check for new walkable tiles (if enemy has died we can now walk on his tile)
-            Destroy(enemy.gameObject);
+            enemy.isDead = true;
+            enemy.gameObject.SetActive(false);
+            //Destroy(enemy.gameObject);
         }
 
         UpdateInfoStats();
@@ -614,6 +646,9 @@ public class GM : MonoBehaviour
             unit.hasAttacked = false;
             unit.hasMoved = false;
             unit.ResetWeaponIcon();
+            if (unit.isDead) {
+                Destroy(unit.gameObject);
+            }
         }
 
         ClosestEnemy[] x = FindObjectsOfType<ClosestEnemy>();
@@ -621,6 +656,16 @@ public class GM : MonoBehaviour
         {
             unit.hasMoved = false;
             ResetWeaponIcon();
+            if (unit.isDead) {
+                Destroy(unit.gameObject);
+            }
+        }
+
+        Village[] y = FindObjectsOfType<Village>();
+        foreach (Village unit in y) {
+            if (unit.isDead) {
+                Destroy(unit.gameObject);
+            }
         }
 
         if (playerTurn == 1) { //esto se dejará

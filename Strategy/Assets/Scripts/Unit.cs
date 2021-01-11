@@ -18,6 +18,7 @@ public class Unit : MonoBehaviour
     public List<ClosestEnemy> enemiesInRange = new List<ClosestEnemy>();
 
     public int playerNumber;
+    public bool isDead = false;
 
     public GameObject weaponIcon;
 
@@ -218,7 +219,9 @@ public class Unit : MonoBehaviour
 
             GetWalkableTiles(); // check for new walkable tiles (if enemy has died we can now walk on his tile)
             gm.RemoveInfoPanel(enemy);
-            Destroy(enemy.gameObject);
+            enemy.isDead = true;
+            enemy.gameObject.SetActive(false);
+            //Destroy(enemy.gameObject);
         }
 
         if (health <= 0)
@@ -237,7 +240,9 @@ public class Unit : MonoBehaviour
 
             gm.ResetTiles(); // reset tiles when we die
             gm.RemoveInfoPanel(this);
-            Destroy(gameObject);
+            isDead = true;
+            gameObject.SetActive(false);
+            //Destroy(gameObject);
         }
 
         gm.UpdateInfoStats();

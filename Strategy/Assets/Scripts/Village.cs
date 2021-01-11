@@ -10,6 +10,7 @@ public class Village : MonoBehaviour
     public int cost;
 
     public int health;
+    public bool isDead = false;
 
     public DamageIcon damageIcon;
     public GameObject deathEffect;
